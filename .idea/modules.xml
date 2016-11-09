@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/dubbox-custom-api/dubbox-custom-api.iml" filepath="$PROJECT_DIR$/dubbox-custom-api/dubbox-custom-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dubbox-custom-service/dubbox-custom-service.iml" filepath="$PROJECT_DIR$/dubbox-custom-service/dubbox-custom-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dubbox-product-service/dubbox-product-service.iml" filepath="$PROJECT_DIR$/dubbox-product-service/dubbox-product-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dubbox-web/dubbox-web.iml" filepath="$PROJECT_DIR$/dubbox-web/dubbox-web.iml" />
+    </modules>
+  </component>
+</project>

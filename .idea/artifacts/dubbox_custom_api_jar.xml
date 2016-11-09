@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="dubbox-custom-api:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/dubbox_custom_api_jar</output-path>
+    <root id="archive" name="dubbox-custom-api.jar">
+      <element id="module-output" name="dubbox-custom-api" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/maven/maven-plugin-api/2.0/maven-plugin-api-2.0.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
