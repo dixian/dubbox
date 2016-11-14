@@ -3,14 +3,16 @@ package com.telecomjs.controller;
 import com.alibaba.fastjson.JSON;
 import com.telecomjs.service.intf.CustomRestService;
 import com.telecomjs.service.intf.CustomService;
+import com.telecomjs.service.intf.ProductRestService;
+import com.telecomjs.service.intf.ProductService;
 import com.telecomjs.vo.CustomerInfo;
+import com.telecomjs.vo.ProductInfo;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
 /**
  * Created by zark on 16/11/7.
  */
@@ -24,6 +26,12 @@ public class MainController {
     @SuppressWarnings("all")
     @Autowired
     private CustomRestService customRestService;
+    @SuppressWarnings("all")
+    @Autowired
+    private ProductRestService productRestService;
+    @SuppressWarnings("all")
+    @Autowired
+    private ProductService productService;
 
     public void setCustomService(CustomService customService) {
         this.customService = customService;
@@ -43,7 +51,8 @@ public class MainController {
         log.debug("pathparam id :"+String.valueOf(id));
         log.debug("customservice is null ?" + String.valueOf(customService==null));
         try {
-            CustomerInfo info = customService.getCustom(id);
+            ProductInfo info = productService.getProductByNbr("13347839809");
+            //CustomerInfo info = customService.getCustom(id);
             String message = JSON.toJSONString(info);
             log.warn(message);
             ModelAndView mav = new ModelAndView("show");

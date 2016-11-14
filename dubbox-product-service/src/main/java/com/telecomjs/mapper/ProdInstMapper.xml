@@ -72,6 +72,16 @@
     from PROD_INST
     where ACC_NUM = #{accNbr,jdbcType=VARCHAR}
   </select>
+  <!--
+  根据客户号码查询号码列表
+  -->
+  <select id="queryByPartyId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from PROD_INST
+    where OWNER_CUST_ID = #{ownerCustId,jdbcType=VARCHAR}
+  </select>
+
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     <!--

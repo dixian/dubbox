@@ -5,6 +5,7 @@
   </component>
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$/dubbox-custom-service" />
+    <file type="web" url="file://$PROJECT_DIR$/dubbox-eop" />
     <file type="web" url="file://$PROJECT_DIR$/dubbox-product-service" />
     <file type="web" url="file://$PROJECT_DIR$/dubbox-web" />
   </component>
@@ -15,6 +16,7 @@
         <option value="$PROJECT_DIR$/dubbox-web/pom.xml" />
         <option value="$PROJECT_DIR$/dubbox-custom-service/pom.xml" />
         <option value="$PROJECT_DIR$/dubbox-product-service/pom.xml" />
+        <option value="$PROJECT_DIR$/dubbox-eop/pom.xml" />
       </list>
     </option>
   </component>

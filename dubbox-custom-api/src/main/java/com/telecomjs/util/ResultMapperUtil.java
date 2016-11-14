@@ -12,11 +12,12 @@ public class ResultMapperUtil {
     }
 
     public static ResultMapper defaultResultMapper(String m,Object o){
-        if (o == null){
+        if (o != null){
             return new ResultMapper(m,o,ResultMapper.CODE_OK);
         }
         else {
             return new ResultMapper(m,o,ResultMapper.CODE_ERR);
         }
     }
+
 }

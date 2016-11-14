@@ -1,5 +1,6 @@
 package com.telecomjs.service.intf;
 
+import com.telecomjs.util.ResultMapper;
 import com.telecomjs.vo.CustomerInfo;
 
 import java.util.List;
@@ -9,6 +10,4 @@ import java.util.List;
  */
 public interface CustomService {
     public CustomerInfo getCustom(String customId);
-    public CustomerInfo getCustomByAccNbr(String number);
-    public List<CustomerInfo> getAccNbrAll(String customId);
 }

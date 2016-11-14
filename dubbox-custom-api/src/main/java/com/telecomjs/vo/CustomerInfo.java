@@ -1,36 +1,36 @@
 package com.telecomjs.vo;
 
+import com.telecomjs.beans.CustomerBean;
+import com.telecomjs.beans.ProdInstBean;
+
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by zark on 16/11/7.
  */
+@XmlRootElement
 public class CustomerInfo implements Serializable {
-    private String name;
-    private String id;
-    private String code;
+    private CustomerBean customer;
+    private List<ProdInstBean> prodlist;
 
-    public String getName() {
-        return name;
+    public CustomerInfo() {
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public CustomerBean getCustomer() {
+        return customer;
     }
 
-    public String getId() {
-        return id;
+    public void setCustomer(CustomerBean customer) {
+        this.customer = customer;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public List<ProdInstBean> getProdlist() {
+        return prodlist;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
+    public void setProdlist(List<ProdInstBean> prodlist) {
+        this.prodlist = prodlist;
     }
 }

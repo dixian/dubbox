@@ -22,15 +22,16 @@
 
     <dubbo:application name="dubbox-product" owner="programmer" organization="dubbox"/>
 
+    <dubbo:provider delay="-1" timeout="6000"  />
     <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
 
     <!--uncomment this if you want to test dubbo's monitor-->
     <!--<dubbo:monitor protocol="registry"/>-->
 
     <!-- here we demonstrate both annotation-based and xml-based configs -->
-    <dubbo:annotation package="com.telecomjs.service.rest" />
+    <dubbo:annotation package="com.telecomjs.service.intf" />
 
-    <dubbo:protocol name="dubbo" serialization="kryo" optimizer="com.telecomjs.serialize.SerializationOptimizerImpl"/>
+    <dubbo:protocol name="dubbo" serialization="kryo" optimizer="com.telecomjs.serialize.SerializationOptimizerImpl" port="20880"/>
     <!--<dubbo:protocol name="dubbo" serialization="fst" optimizer="com.alibaba.dubbo.demo.SerializationOptimizerImpl"/>-->
 
     <!--<dubbo:protocol name="dubbo" serialization="nativejava"/>-->
@@ -47,25 +48,25 @@
     <!--<dubbo:protocol name="rest" port="8888" server="tjws" contextpath="services"/>-->
 
     <!-- use tomcat server -->
-    <dubbo:protocol name="rest" port="8888" threads="500" contextpath="services" server="tomcat" accepts="500" />
-    <!--
-                    extension="com.alibaba.dubbo.demo.extension.TraceInterceptor,
-                    com.alibaba.dubbo.demo.extension.TraceFilter,
-                    com.alibaba.dubbo.demo.extension.ClientTraceFilter,
-                    com.alibaba.dubbo.demo.extension.DynamicTraceBinding,
-                    com.alibaba.dubbo.demo.extension.CustomExceptionMapper,
-                    com.alibaba.dubbo.rpc.protocol.rest.support.LoggingFilter"/>
-                    -->
+    <dubbo:protocol name="rest" port="8288" threads="500" contextpath="services" server="tomcat" accepts="500"
+                    extension="com.telecomjs.extension.TraceInterceptor,
+                    com.telecomjs.extension.TraceFilter,
+                    com.telecomjs.extension.ClientTraceFilter,
+                    com.telecomjs.extension.DynamicTraceBinding,
+                    com.telecomjs.extension.CustomExceptionMapper,
+                    com.alibaba.dubbo.rpc.protocol.rest.support.LoggingFilter" />
+
 
     <!-- use the external tomcat or other server with the servlet approach; the port and contextpath must be exactly the same as those in external server -->
     <!--<dubbo:protocol name="rest" port="8887" contextpath="services" server="servlet"/> -->
 
-    <dubbo:protocol name="http" port="8889"/>
-    <dubbo:protocol name="hessian" port="8890"/>
-    <dubbo:protocol name="webservice" port="8892"/>
+    <dubbo:protocol name="http" port="8289"/>
+    <dubbo:protocol name="hessian" port="8290"/>
+    <dubbo:protocol name="webservice" port="8292"/>
 
     <dubbo:service interface="com.telecomjs.service.intf.ProductService" ref="productService"  protocol="dubbo"/>
-    <dubbo:service interface="com.telecomjs.service.intf.ProductRestService" ref="productRestService" protocol="rest" validation="true"/>
+    <dubbo:service interface="com.telecomjs.service.intf.ProductRestService" ref="productRestService"  protocol="dubbo"/>
+    <dubbo:service interface="com.telecomjs.service.intf.ProductRestService" ref="productRestService"  protocol="rest"  timeout="2000" connections="100"  />
     <!-- we add the group property since there's another annotation-configured service impl: com.alibaba.dubbo.demo.user.facade.AnnotationDrivenUserRestServiceImpl -->
     <!--
     <dubbo:service interface="com.alibaba.dubbo.demo.user.facade.UserRestService" ref="userRestService"  protocol="rest" validation="true"/>

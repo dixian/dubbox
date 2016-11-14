@@ -1,10 +1,14 @@
 package com.telecomjs.service.impl;
 
+import com.telecomjs.beans.CustomerBean;
+import com.telecomjs.entities.Customer;
 import com.telecomjs.entities.Party;
+import com.telecomjs.mapper.CustomerMapper;
 import com.telecomjs.mapper.PartyMapper;
 import com.telecomjs.vo.CustomerInfo;
 import com.telecomjs.service.intf.CustomService;
 import org.apache.log4j.Logger;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,32 +22,26 @@ public class CustomServiceImpl implements CustomService {
     Logger logger = Logger.getLogger(CustomService.class);
     @Autowired
     private PartyMapper partyMapper;
+    @Autowired
+    private CustomerMapper customerMapper;
 
     public CustomerInfo getCustom(String customId) {
         logger.debug("getCustom : "+String.valueOf(customId));
+        CustomerInfo custom = null ;
         try {
-            Party p = partyMapper.selectByPrimaryKey(customId);
-            CustomerInfo custom = new CustomerInfo();
-            custom.setId(String.valueOf(p.getPartyId()));
-            custom.setName(p.getPartyName());
-            custom.setCode(p.getEnglishName());
-            return custom;
+            Customer cust =customerMapper.selectByPrimaryKey(customId);
+            CustomerBean bean = new CustomerBean();
+            BeanUtils.copyProperties(cust,bean);
+            custom = new CustomerInfo();
+            custom.setCustomer(bean);
         }
         catch (Exception e) {
             e.printStackTrace();
-            return null;
+            //return null;
         }
+        return custom;
     }
 
-    @Override
-    public CustomerInfo getCustomByAccNbr(String number) {
-        return null;
-    }
-
-    @Override
-    public List<CustomerInfo> getAccNbrAll(String customId) {
-        return null;
-    }
 
     public void throwNPE() throws NullPointerException {
         throw new NullPointerException();

@@ -1,60 +1,39 @@
 package com.telecomjs.vo;
 
+import com.telecomjs.beans.OfferInstBean;
+import com.telecomjs.beans.ProdInstBean;
+
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by zark on 16/11/9.
  */
 
+@XmlRootElement
 public class ProductInfo implements Serializable {
 
-    private String prodInstId;
+    private ProdInstBean prodInst;
+    private List<OfferInstBean> offerList;
 
-    private String account;
-
-    private String accNum;
-
-    private String accProdInstId;
-
-    private String ownCustId;
-
-    public String getProdInstId() {
-        return prodInstId;
+    public ProductInfo() {
     }
 
-    public void setProdInstId(String prodInstId) {
-        this.prodInstId = prodInstId;
+
+    public ProdInstBean getProdInst() {
+        return prodInst;
     }
 
-    public String getAccount() {
-        return account;
+    public void setProdInst(ProdInstBean prodInst) {
+        this.prodInst = prodInst;
     }
 
-    public void setAccount(String account) {
-        this.account = account;
+    public List<OfferInstBean> getOfferList() {
+        return offerList;
     }
 
-    public String getAccNum() {
-        return accNum;
-    }
-
-    public void setAccNum(String accNum) {
-        this.accNum = accNum;
-    }
-
-    public String getAccProdInstId() {
-        return accProdInstId;
-    }
-
-    public void setAccProdInstId(String accProdInstId) {
-        this.accProdInstId = accProdInstId;
-    }
-
-    public String getOwnCustId() {
-        return ownCustId;
-    }
-
-    public void setOwnCustId(String ownCustId) {
-        this.ownCustId = ownCustId;
+    public void setOfferList(List<OfferInstBean> offerList) {
+        this.offerList = offerList;
     }
 }

@@ -24,6 +24,7 @@
         <processorPath useClasspath="true" />
         <module name="dubbox-custom-api" />
         <module name="dubbox-custom-service" />
+        <module name="dubbox-eop" />
         <module name="dubbox-product-service" />
         <module name="dubbox-web" />
       </profile>
@@ -31,6 +32,7 @@
     <bytecodeTargetLevel>
       <module name="dubbox-custom-api" target="1.5" />
       <module name="dubbox-custom-service" target="1.7" />
+      <module name="dubbox-eop" target="1.7" />
       <module name="dubbox-product-service" target="1.6" />
       <module name="dubbox-web" target="1.7" />
     </bytecodeTargetLevel>
