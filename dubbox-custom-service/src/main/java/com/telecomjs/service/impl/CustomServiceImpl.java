@@ -30,6 +30,8 @@ public class CustomServiceImpl implements CustomService {
         CustomerInfo custom = null ;
         try {
             Customer cust =customerMapper.selectByPrimaryKey(customId);
+            if (cust == null)
+                return custom;
             CustomerBean bean = new CustomerBean();
             BeanUtils.copyProperties(cust,bean);
             custom = new CustomerInfo();

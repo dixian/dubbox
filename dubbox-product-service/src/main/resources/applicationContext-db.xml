@@ -2,17 +2,20 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
     <!--指明 controller 所在包，并扫描其中的注解-->
     <!--
     <context:component-scan base-package="com.telecomjs.controller"/>
     -->
     <context:component-scan base-package="com.telecomjs.service.impl"/>
     <context:component-scan base-package="com.telecomjs.service.rest"/>
+    <context:component-scan base-package="com.telecomjs.mapper"/>
+    <mvc:annotation-driven/>
 
 
-    <context:property-placeholder location="classpath*:jdbc.properties" />
+    <context:property-placeholder location="classpath*:*.properties"  />
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
         <property name="jdbcUrl" value="${jdbc.url}" />
         <property name="driverClass" value="${jdbc.driver}" />
@@ -42,8 +45,18 @@
         <!--获取连接失败将会引起所有等待连接池来获取连接的线程抛出异常。但是数据源仍有效
           保留，并在下次调用getConnection()的时候继续尝试获取连接。如果设为true，那么在尝试
           获取连接失败后该数据源将申明已断开并永久关闭。Default: false-->
-        <property name="breakAfterAcquireFailure" value="true" />
+        <property name="breakAfterAcquireFailure" value="${jdbc.breakAfterAcquireFailure}" />
+        <!--
+        true表示在每次从pool内checkout连接的时候测试其有效性，这是个同步操作，因此应用端的每次数据库调用，
+        都会先通过测试sql测试其有效性，如果连接无效，会关闭此连接并剔除出pool，并尝试从pool内取其他连接，默认为false
+        -->
+        <property name="testConnectionOnCheckout" value="${jdbc.testConnectionOnCheckout}" />
 
+        <!--
+        true表示每次把连接checkin到pool里的时候测试其有效性，因为是个事后操作，所以是异步的，
+        应用端不需要等待测试结果，但同样会造成至少多一倍的数据库调用。
+        -->
+        <property name="testConnectionOnCheckin" value="${jdbc.testConnectionOnCheckin}" />
     </bean>
 
     <!-- sqlSessionFactory -->
@@ -90,4 +103,8 @@
     <aop:config>
         <aop:advisor advice-ref="txAdvice" pointcut="execution(* com.telecomjs.service.impl.*.*(..))"/>
     </aop:config>
+
+    <import resource="classpath*:spring-redis.xml" />
+
+
 </beans>

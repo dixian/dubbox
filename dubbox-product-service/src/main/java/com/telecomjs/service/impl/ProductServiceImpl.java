@@ -14,6 +14,7 @@ import com.telecomjs.vo.ProductInfo;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -34,6 +35,8 @@ public class ProductServiceImpl implements ProductService {
     private OfferService offerService;
 
 
+    @Override
+    //@Cacheable(value = "product2" )
     public ProductInfo getProductByNbr(String accNbr) {
         logger.debug("getProductByNbr : "+accNbr);
         ProductInfo info = null;
@@ -45,6 +48,7 @@ public class ProductServiceImpl implements ProductService {
             info.setProdInst(bean);
             //查询产品套餐信息
             if (prodInst != null){
+                logger.debug("getProductOfferListByNbr : "+accNbr);
                 info.setOfferList(offerService.queryOfferInstByProdId(prodInst.getProdId()));
             }
         }
