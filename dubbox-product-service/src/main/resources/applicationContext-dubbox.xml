@@ -23,7 +23,7 @@
     <dubbo:application name="dubbox-product" owner="programmer" organization="dubbox"/>
 
     <dubbo:provider delay="-1" timeout="3000"  />
-    <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
+    <dubbo:registry address="${dubbo.zookeeper.addr}"/>
 
     <!--uncomment this if you want to test dubbo's monitor-->
     <!--<dubbo:monitor protocol="registry"/>-->
@@ -31,7 +31,7 @@
     <!-- here we demonstrate both annotation-based and xml-based configs -->
     <dubbo:annotation package="com.telecomjs.service.intf" />
 
-    <dubbo:protocol name="dubbo" serialization="kryo" optimizer="com.telecomjs.serialize.SerializationOptimizerImpl" port="20880"/>
+    <dubbo:protocol name="dubbo" serialization="kryo" optimizer="com.telecomjs.serialize.SerializationOptimizerImpl" port="${dubbo.product.dubboport}"/>
     <!--<dubbo:protocol name="dubbo" serialization="fst" optimizer="com.alibaba.dubbo.demo.SerializationOptimizerImpl"/>-->
 
     <!--<dubbo:protocol name="dubbo" serialization="nativejava"/>-->
@@ -48,7 +48,7 @@
     <!--<dubbo:protocol name="rest" port="8888" server="tjws" contextpath="services"/>-->
 
     <!-- use tomcat server -->
-    <dubbo:protocol name="rest" port="8288" threads="500" contextpath="services" server="tomcat" accepts="500"
+    <dubbo:protocol name="rest" port="${dubbo.product.restport}" threads="500" contextpath="services" server="tomcat" accepts="500"
                     extension="com.telecomjs.extension.TraceInterceptor,
                     com.telecomjs.extension.TraceFilter,
                     com.telecomjs.extension.ClientTraceFilter,
@@ -59,10 +59,11 @@
 
     <!-- use the external tomcat or other server with the servlet approach; the port and contextpath must be exactly the same as those in external server -->
     <!--<dubbo:protocol name="rest" port="8887" contextpath="services" server="servlet"/> -->
-
+    <!--
     <dubbo:protocol name="http" port="8289"/>
     <dubbo:protocol name="hessian" port="8290"/>
     <dubbo:protocol name="webservice" port="8292"/>
+    -->
 
     <dubbo:service interface="com.telecomjs.service.intf.ProductService" ref="productService"  protocol="dubbo"/>
     <dubbo:service interface="com.telecomjs.service.intf.ProductRestService" ref="productRestService"  protocol="dubbo"/>

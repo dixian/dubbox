@@ -22,7 +22,7 @@
 
     <dubbo:application name="dubbox-custom" owner="programmer" organization="dubbox"/>
 
-    <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
+    <dubbo:registry address="${dubbo.zookeeper.addr}"/>
 
     <!--uncomment this if you want to test dubbo's monitor-->
     <!--<dubbo:monitor protocol="registry"/>-->
@@ -30,7 +30,7 @@
     <!-- here we demonstrate both annotation-based and xml-based configs -->
     <dubbo:annotation package="com.telecomjs.service.intf" />
 
-    <dubbo:protocol name="dubbo" serialization="kryo" optimizer="com.telecomjs.serialize.SerializationOptimizerImpl" port="21880"/>
+    <dubbo:protocol name="dubbo" serialization="kryo" optimizer="com.telecomjs.serialize.SerializationOptimizerImpl" port="${dubbo.custom.dubboport}"/>
     <!--<dubbo:protocol name="dubbo" serialization="fst" optimizer="com.alibaba.dubbo.demo.SerializationOptimizerImpl"/>-->
 
     <!--<dubbo:protocol name="dubbo" serialization="nativejava"/>-->
@@ -47,7 +47,7 @@
     <!--<dubbo:protocol name="rest" port="8888" server="tjws" contextpath="services"/>-->
 
     <!-- use tomcat server -->
-    <dubbo:protocol name="rest" port="8188" threads="500" contextpath="services" server="tomcat" accepts="500" />
+    <dubbo:protocol name="rest" port="${dubbo.custom.restport}" threads="500" contextpath="services" server="tomcat" accepts="500" />
     <!--
                     extension="com.alibaba.dubbo.demo.extension.TraceInterceptor,
                     com.alibaba.dubbo.demo.extension.TraceFilter,

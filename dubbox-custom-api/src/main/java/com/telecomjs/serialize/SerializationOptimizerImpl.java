@@ -16,6 +16,7 @@
 package com.telecomjs.serialize;
 
 import com.alibaba.dubbo.common.serialize.support.SerializationOptimizer;
+import com.telecomjs.beans.*;
 import com.telecomjs.util.ResultMapper;
 import com.telecomjs.vo.CustomerInfo;
 import com.telecomjs.vo.ProductInfo;
@@ -25,9 +26,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * This class must be accessible from both the provider and consumer
  *
- * @author lishen
  */
 public class SerializationOptimizerImpl implements SerializationOptimizer {
 
@@ -36,6 +35,11 @@ public class SerializationOptimizerImpl implements SerializationOptimizer {
         classes.add(CustomerInfo.class);
         classes.add(ProductInfo.class);
         classes.add(ResultMapper.class);
+        classes.add(CustomerBean.class);
+        classes.add(OfferBean.class);
+        classes.add(OfferInstBean.class);
+        classes.add(PartyBean.class);
+        classes.add(ProdInstBean.class);
         return classes;
     }
 }
