@@ -35,7 +35,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 
     @Override
     @GET
-    @Path("querypartyprods/{partyId : \\d+}")
+    @Path("querypartyprods/{partyId : \\w+}")
     @Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
     @Produces({ContentType.APPLICATION_JSON_UTF_8,ContentType.TEXT_XML_UTF_8})
     public List<ProdInstBean> queryProductByPartyId(@PathParam("partyId") String partyId) {
