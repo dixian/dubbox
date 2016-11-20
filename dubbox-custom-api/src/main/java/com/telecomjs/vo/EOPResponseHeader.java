@@ -52,4 +52,13 @@ public class EOPResponseHeader implements Serializable {
         header.setResponse(EOPResponseStatus.ok());
         return  header;
     }
+
+    public static EOPResponseHeader err() {
+        EOPResponseHeader header = new EOPResponseHeader();
+        header.setTransactionID("1001000101201602021234567890");
+        header.setActionCode("1");
+        header.setRspTime("20160202145959245");
+        header.setResponse(EOPResponseStatus.err());
+        return  header;
+    }
 }

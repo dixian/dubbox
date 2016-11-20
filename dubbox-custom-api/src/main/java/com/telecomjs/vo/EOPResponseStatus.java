@@ -43,4 +43,12 @@ public class EOPResponseStatus implements Serializable {
         res.setRspDesc(EOPConstants.TCPCONTENT_OK_RSPDESC);
         return res;
     }
+
+    public static  EOPResponseStatus err() {
+        EOPResponseStatus res = new EOPResponseStatus();
+        res.setRspType(EOPConstants.TCPCONTENT_ERROR_RSPTYPE);
+        res.setRspCode(EOPConstants.TCPCONTENT_ERROR_RSPCODE);
+        res.setRspDesc(EOPConstants.TCPCONTENT_ERROR_RSPDESC);
+        return res;
+    }
 }

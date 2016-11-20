@@ -18,17 +18,17 @@ import java.util.Map;
  * Created by zark on 16/11/10.
  */
 @Controller
+@RequestMapping(value = "/")
 public class ProductController {
     Logger logger = Logger.getLogger(this.getClass());
-    @Autowired
-    private ProductRestService productRestService;
+    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     private ProductService productService;
 
     @RequestMapping("/pdinfo")
     public ModelAndView productInfo(){
         logger.warn("productInfo :" + "13347839809");
-        ProductInfo result = productRestService.getProductByNbr("13347839809");
+        ProductInfo result = productService.getProductByNbr("13347839809");
         //ProductInfo pd2=productService.getProductByNbr("13347839809");
         logger.debug("productRestService.getProductByNbr(\"13347839809\")");
         Map<String,Object> data = new HashMap<String,Object>();

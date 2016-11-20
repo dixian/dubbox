@@ -1,7 +1,10 @@
 package com.telecomjs.providers;
 
+import com.telecomjs.vo.EOPResponseHeader;
+import com.telecomjs.vo.EOPResponseRoot;
 import org.apache.log4j.Logger;
 
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
@@ -17,8 +20,8 @@ public class ExceptionProvider implements ExceptionMapper {
     public Response toResponse(Throwable throwable) {
         logger.debug(throwable.getMessage());
         return Response.status(404).
-                entity(throwable.getMessage()).
-                type("text/plain").
+                entity(new EOPResponseRoot().err(new EOPResponseHeader().err())).
+                type(MediaType.APPLICATION_JSON_TYPE).
                 build();
     }
 }

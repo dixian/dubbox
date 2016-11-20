@@ -1,5 +1,6 @@
 package com.telecomjs.handlers;
 
+import com.alibaba.dubbo.rpc.RpcException;
 import com.telecomjs.beans.ProdInstBean;
 import com.telecomjs.constants.EOPConstants;
 import com.telecomjs.service.intf.CustomService;
@@ -23,9 +24,6 @@ public class ProductHandler {
     private ProductService productService;
     private CustomService customService;
 
-    public ProductHandler( ) {
-
-    }
 
     public ProductHandler(Object[] services, AsyncResponse asyncResponse) {
         for (Object svc : services){
@@ -53,6 +51,7 @@ public class ProductHandler {
         long start = System.currentTimeMillis();
         GenericEntity  result = null;
         if (methodName.equals(EOPConstants.M_CALL_QRY_CUST_CUSTINFO)) {
+
             EOPResponseRoot res = getCustomer((String) args );
             result = new GenericEntity<EOPResponseRoot>(res){};
         }
@@ -68,8 +67,6 @@ public class ProductHandler {
     }
 
     public EOPResponseRoot getCustomer(String partyId) {
-        logger.debug("ProductHandler.getCustomer :" +partyId);
-        logger.debug("customService is null :" +(customService  == null));
         if (customService == null ) return null;
         CustomerInfo content =  customService.getCustom(partyId);
         return new EOPResponseRoot().ok(EOPResponseHeader.ok(),content);
@@ -87,7 +84,12 @@ public class ProductHandler {
     }
 
     public EOPResponseRoot getProductByNbr(String accNbr){
-        ProductInfo result = productService.getProductByNbr(accNbr);
-        return new EOPResponseRoot().ok(EOPResponseHeader.ok(),result);
+
+        try {
+            ProductInfo result = productService.getProductByNbr(accNbr);
+            return new EOPResponseRoot().ok(EOPResponseHeader.ok(), result);
+        } catch (RpcException e) {
+            return new EOPResponseRoot().err("服务调用错误.");
+        }
     }
 }

@@ -4,6 +4,8 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+
+
   <!--
   <context-param>
     <param-name>contextConfigLocation</param-name>
@@ -38,12 +40,15 @@
   </context-param>
 
 
+
   <listener>
     <listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
   </listener>
   <listener>
     <listener-class>org.jboss.resteasy.plugins.spring.SpringContextLoaderListener</listener-class>
   </listener>
+
+
 
 
 
@@ -59,24 +64,30 @@
       <param-name>resteasy.resources</param-name>
       <param-value>com.telecomjs.resources</param-value>
     </init-param>
+
+    <load-on-startup>2</load-on-startup>
   </servlet>
+
+
+
+  <!--<servlet>-->
+    <!--<servlet-name>dispatcher</servlet-name>-->
+    <!--<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>-->
+    <!--<init-param>-->
+      <!--<param-name>contextConfigLocation</param-name>-->
+      <!--<param-value>classpath*:dispatcher-servlet.xml</param-value>-->
+    <!--</init-param>-->
+    <!--<load-on-startup>1</load-on-startup>-->
+  <!--</servlet>-->
 
   <servlet-mapping>
     <servlet-name>resteasy</servlet-name>
     <url-pattern>/rest/*</url-pattern>
   </servlet-mapping>
 
-  <servlet>
-    <servlet-name>dispatcher</servlet-name>
-    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-    <init-param>
-      <param-name>contextConfigLocation</param-name>
-      <param-value>classpath*:dispatcher-servlet.xml</param-value>
-    </init-param>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>dispatcher</servlet-name>
-    <url-pattern>/</url-pattern>
-  </servlet-mapping>
+  <!--<servlet-mapping>-->
+    <!--<servlet-name>dispatcher</servlet-name>-->
+    <!--<url-pattern>/</url-pattern>-->
+  <!--</servlet-mapping>-->
+
 </web-app>

@@ -17,6 +17,13 @@
         <module>../dubbox-custom-api</module>
     </modules>
     <dependencies>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>spring-framework-bom</artifactId>-->
+            <!--<version>4.3.3.RELEASE</version>-->
+            <!--<type>pom</type>-->
+            <!--<scope>import</scope>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>com.telecomjs</groupId>
             <artifactId>dubbox-custom-api</artifactId>
@@ -221,7 +228,23 @@
             <artifactId>resteasy-servlet-initializer</artifactId>
             <version>${project.dependency.jboss.resteasy}</version>
         </dependency>
+        <!-- activemq -->
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-all</artifactId>
+            <version>5.14.1</version>
+        </dependency>
 
+        <!--<dependency>-->
+            <!--<groupId>org.apache.activemq</groupId>-->
+            <!--<artifactId>activemq-pool</artifactId>-->
+            <!--<version>5.14.1</version>-->
+        <!--</dependency>-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jms</artifactId>
+            <version>4.3.3.RELEASE</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>dubbox-eop</finalName>
