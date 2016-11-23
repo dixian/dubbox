@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/dubbox-auth/dubbox-auth.iml" filepath="$PROJECT_DIR$/dubbox-auth/dubbox-auth.iml" />
       <module fileurl="file://$PROJECT_DIR$/dubbox-custom-api/dubbox-custom-api.iml" filepath="$PROJECT_DIR$/dubbox-custom-api/dubbox-custom-api.iml" />
       <module fileurl="file://$PROJECT_DIR$/dubbox-custom-service/dubbox-custom-service.iml" filepath="$PROJECT_DIR$/dubbox-custom-service/dubbox-custom-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/dubbox-eop/dubbox-eop.iml" filepath="$PROJECT_DIR$/dubbox-eop/dubbox-eop.iml" />

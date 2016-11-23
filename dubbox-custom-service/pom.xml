@@ -3,12 +3,13 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.telecomjs</groupId>
   <artifactId>dubbox-custom-service</artifactId>
-  <packaging>war</packaging>
+  <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
   <name>dubbox-custom-service Maven Webapp</name>
   <url>http://maven.apache.org</url>
   <modules>
     <module>../dubbox-custom-api</module>
+      <module>../dubbox-auth</module>
   </modules>
   <dependencies>
     <dependency>

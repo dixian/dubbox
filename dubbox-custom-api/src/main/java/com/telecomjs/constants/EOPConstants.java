@@ -20,4 +20,7 @@ public class EOPConstants {
     public  static final int TCPCONTENT_ERROR_RSPTYPE  = -1;
     public  static final String TCPCONTENT_ERROR_RSPCODE  = "0001";
     public  static final String TCPCONTENT_ERROR_RSPDESC  = "操作失败";
+
+    public static final String APP_ONLINE_STATUS_RDY = "RDY";
+    public static final String APP_ONLINE_STATUS_END = "END";
 }

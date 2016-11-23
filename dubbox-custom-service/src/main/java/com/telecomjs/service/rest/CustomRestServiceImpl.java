@@ -32,7 +32,7 @@ public class CustomRestServiceImpl implements CustomRestService {
     }
 
     //dubbo调用的方法
-    @Override
+
     @GET
     @Path("{id : \\w+}")
     @Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})

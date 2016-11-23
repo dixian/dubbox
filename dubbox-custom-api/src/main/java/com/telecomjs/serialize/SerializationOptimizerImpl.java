@@ -40,6 +40,10 @@ public class SerializationOptimizerImpl implements SerializationOptimizer {
         classes.add(OfferInstBean.class);
         classes.add(PartyBean.class);
         classes.add(ProdInstBean.class);
+
+        classes.add(EopAppBean.class);
+        classes.add(EopAppOnlineBean.class);
+        classes.add(EopUserBean.class);
         return classes;
     }
 }
