@@ -5,6 +5,7 @@ import com.telecomjs.handlers.AsyncRequestMapHandler;
 import com.telecomjs.handlers.MessageSender;
 import com.telecomjs.handlers.ProductHandler;
 import com.telecomjs.messages.RequestMessage;
+import com.telecomjs.service.intf.AuthService;
 import com.telecomjs.service.intf.CustomService;
 import com.telecomjs.service.intf.ProductRestService;
 import com.telecomjs.service.intf.ProductService;
@@ -41,15 +42,7 @@ public class ProductResource extends AbstractCommonResource {
 
     @Autowired
     private MessageSender messageSender;
-    @Autowired
-    private ThreadPoolTaskExecutor taskExecutor;
-    @SuppressWarnings("SpringJavaAutowiringInspection")
-    @Autowired
-    private CustomService customService;
-    @SuppressWarnings("SpringJavaAutowiringInspection")
-    @Autowired
-    private ProductService productService;
-    @SuppressWarnings("SpringJavaAutowiringInspection")
+
 
 
     /*@Path("/direct/{accNbr : \\w+}")
@@ -60,10 +53,12 @@ public class ProductResource extends AbstractCommonResource {
         new ProductHandler(new Object[]{customService,productService},null).callService();
     }*/
 
-    @Path("/queue/{accNbr : \\w+}")
-    @POST
+
+    @Path("{accNbr : \\w+}")
+    @GET
     @Produces({ MediaType.APPLICATION_JSON})
-    public void getProduct(@Suspended final AsyncResponse asyncResponse, @PathParam("accNbr") final String accNbr){
+    public void getProduct(@Suspended final AsyncResponse asyncResponse, @PathParam("accNbr") final String accNbr
+        ,@HeaderParam("token") String token){
         logger.debug("getProduct : "+accNbr);
         //获取时间戳，作为当前会话的key
         final String requestSequence = String.valueOf(System.currentTimeMillis());
@@ -71,33 +66,15 @@ public class ProductResource extends AbstractCommonResource {
         configResponse(asyncResponse,requestSequence);
         //将请求送到消息队列，等待异步处理。 RequestMessage 是个自定义ObjectMessage
         Map params = new HashMap<String,String>();
+        params.put("token",token);
         params.put(EOPConstants.M_CALL_QRY_CUST_CUSTINFO_BYNBR_PARAM1,accNbr);
-        messageSender.send(new RequestMessage(EOPConstants.M_CALL_QRY_CUST_PRODUCT_BYNBR,null
-                ,requestSequence,EOPConstants.ASYNC_REQUEST_MESSAGE_PARAM_TYPE_STRING,accNbr));
+        messageSender.send(new RequestMessage(EOPConstants.M_CALL_QRY_CUST_PRODUCT_BYNBR,params
+                ,requestSequence,EOPConstants.ASYNC_REQUEST_MESSAGE_PARAM_TYPE_MAP,accNbr));
         final long timestamp = System.currentTimeMillis();
         logger.debug("messageSender.send duration : "+String.valueOf(timestamp - Long.parseLong(requestSequence))
                 +",key="+requestSequence);
 
-        /*asyncResponse.setTimeoutHandler(new TimeoutHandler() {
 
-            @Override
-            public void handleTimeout(AsyncResponse asyncResponse) {
-                asyncResponse.resume(Response.status(Response.Status.SERVICE_UNAVAILABLE)
-                        .entity("Operation time out.").build());
-            }
-        });
-        asyncResponse.setTimeout(5, TimeUnit.SECONDS);
-        taskExecutor.execute(new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                logger.debug("start ProductHandler(customService).callService().getProduct"+accNbr);
-                new ProductHandler(new Object[]{customService,productService},asyncResponse)
-                        .resumeService(EOPConstants.M_CALL_QRY_CUST_PRODUCT_BYNBR,accNbr);
-                //asyncResponse.resume(result);
-            }
-
-        }));*/
     }
 
 

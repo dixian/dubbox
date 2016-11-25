@@ -66,8 +66,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public EopAppOnlineBean authToken(String token, String now) {
-
+    public EopAppOnlineBean getTokenInfo(String token) {
         EopAppOnline online = eopAppOnlineMapper.getAppOnLineByToken(token);
         if (online != null){
             logger.debug("app_online  : " + JSON.toJSONString(online));
@@ -164,6 +163,8 @@ public class AuthServiceImpl implements AuthService {
         }
         return null;
     }
+
+
 
     //刷新访问次数
     class UpdateAppAccess implements Runnable {

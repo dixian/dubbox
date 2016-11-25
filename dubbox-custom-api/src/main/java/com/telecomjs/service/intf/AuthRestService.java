@@ -9,7 +9,7 @@ import javax.ws.rs.core.Response;
 public interface AuthRestService {
 
     public Response authUserAndApp(String user, String password, String appkey, String secret);
-    public Response authToken(String token, String startSequence);
+    public Response getTokenInfo(String token);
     public Response authAndEndToken(String token , String now) ;
     public Response verifyAccessLimit( String token,String domain
             ,String method,String currentDate);

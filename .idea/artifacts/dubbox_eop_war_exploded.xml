@@ -77,6 +77,8 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-jms:4.3.3.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-messaging:4.3.3.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-tx:4.3.3.RELEASE" />
+          <element id="library" level="project" name="Maven: commons-beanutils:commons-beanutils:1.9.3" />
+          <element id="library" level="project" name="Maven: commons-collections:commons-collections:3.2.2" />
         </element>
       </element>
       <element id="directory" name="META-INF">

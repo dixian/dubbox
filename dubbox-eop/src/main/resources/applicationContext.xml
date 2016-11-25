@@ -8,4 +8,6 @@
     <context:component-scan base-package="com.telecomjs.providers" />
     <context:component-scan base-package="com.telecomjs.resources" />
 
+    <context:property-placeholder location="classpath*:*.properties" />
+
 </beans>

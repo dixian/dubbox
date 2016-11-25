@@ -22,7 +22,7 @@
 
     <dubbo:application name="dubbox-auth" owner="programmer" organization="dubbox"/>
 
-    <dubbo:registry address="${dubbo.zookeeper.addr}"/>
+    <dubbo:registry protocol="zookeeper" address="${dubbo.zookeeper.addr}"/>
 
     <!--uncomment this if you want to test dubbo's monitor-->
     <!--<dubbo:monitor protocol="registry"/>-->

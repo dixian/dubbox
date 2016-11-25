@@ -48,13 +48,15 @@ public class AuthRestServiceImpl implements AuthRestService {
     @Path("token/{token}/{now}")
     @Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
     @Produces({ContentType.APPLICATION_JSON_UTF_8,ContentType.TEXT_XML_UTF_8})
-    public Response authToken(@PathParam("token") String token, @PathParam("now") String startSequence) {
-
+    @Override
+    public Response getTokenInfo(String token) {
         return Response.ok().
-                entity(  new EOPResponseRoot().ok(EOPResponseHeader.ok(),authService.authToken(token,startSequence))).
+                entity(  new EOPResponseRoot().ok(EOPResponseHeader.ok(),authService.getTokenInfo(token))).
                 type(MediaType.APPLICATION_JSON_TYPE).
                 build();
     }
+
+
 
     @GET
     @Path("verifytoken/{token}/{now}")

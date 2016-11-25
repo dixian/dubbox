@@ -28,7 +28,10 @@ public class AbstractCommonResource {
     @Autowired
     private AsyncRequestMapHandler asyncRequestMapHandler;
 
-    protected void configResponse(final AsyncResponse asyncResponse, final String sequence) {
+    protected void configResponse(final AsyncResponse asyncResponse, final String sequence){
+        configResponse(asyncResponse,sequence,10);
+    }
+    protected void configResponse(final AsyncResponse asyncResponse, final String sequence ,int timeout) {
         //讲异步响应的实例压如Hash队列中
         asyncRequestMapHandler.putResponse(sequence,asyncResponse);
         //超时的回调，当超时时，主动唤醒AsyncResource实例并设置HTTP状态码
@@ -46,7 +49,7 @@ public class AbstractCommonResource {
             }
         });
         //设置超时，3秒
-        asyncResponse.setTimeout(10, TimeUnit.SECONDS);
+        asyncResponse.setTimeout(timeout, TimeUnit.SECONDS);
 
         //处理完成的回调
         asyncResponse.register(new CompletionCallback() {

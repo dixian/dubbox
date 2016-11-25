@@ -35,11 +35,42 @@
   </servlet-mapping>
   -->
   <context-param>
+    <param-name>resteasy.async.job.service.enabled</param-name>
+    <param-value>false</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>resteasy.async.job.service.max.job.results</param-name>
+    <param-value>5000</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>resteasy.async.job.service.max.wait</param-name>
+    <param-value>300000</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>resteasy.async.job.service.thread.pool.size</param-name>
+    <param-value>1000</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>resteasy.async.job.service.base.path</param-name>
+    <param-value>/asyncjobs</param-value>
+  </context-param>
+  <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>classpath*:applicationContext*.xml</param-value>
   </context-param>
 
-
+  <context-param>
+    <param-name>resteasy.scan.resources</param-name>
+    <param-value>com.telecomjs.resources</param-value>
+  </context-param>
+  <context-param>
+    <param-name>resteasy.scan.providers</param-name>
+    <param-value>com.telecomjs.providers</param-value>
+  </context-param>
 
   <listener>
     <listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
@@ -60,12 +91,12 @@
       <param-name>resteasy.servlet.mapping.prefix</param-name>
       <param-value>/rest</param-value>
     </init-param>
-    <init-param>
-      <param-name>resteasy.resources</param-name>
-      <param-value>com.telecomjs.resources</param-value>
-    </init-param>
+    <!--<init-param>-->
+      <!--<param-name>resteasy.resources</param-name>-->
+      <!--<param-value>com.telecomjs.resources</param-value>-->
+    <!--</init-param>-->
 
-    <load-on-startup>2</load-on-startup>
+    <load-on-startup>1</load-on-startup>
   </servlet>
 
 

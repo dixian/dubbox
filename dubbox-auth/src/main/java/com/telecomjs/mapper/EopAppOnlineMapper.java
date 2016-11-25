@@ -14,7 +14,6 @@ public interface EopAppOnlineMapper {
      * @mbggenerated
      */
 
-    //@CachePut(value = "auth",key = "'getAppOnLineByToken#' + #a0.token")
     public int insert(EopAppOnline record);
 
     /**

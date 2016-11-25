@@ -48,9 +48,12 @@ public class CustomerResource extends AbstractCommonResource  {
     @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     private ThreadPoolTaskExecutor taskExecutor;
+    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     private MessageSender messageSender;
 
+
+    // ----------------- 以下是测试代码 ---------------
     @POST
     @Produces("text/plain")
     @Path("as/{id : \\d+}")
@@ -59,6 +62,7 @@ public class CustomerResource extends AbstractCommonResource  {
         Thread.sleep(6000);
         return "async";
     }
+
 
     @Path("/direct/{id : \\w+}")
     @GET
@@ -70,12 +74,19 @@ public class CustomerResource extends AbstractCommonResource  {
                 .entity(new EOPResponseRoot().ok(EOPResponseHeader.ok(),customService.getCustom(customId))).build();
     }
 
-    @Path("/queue/{id : \\w+}")
+    //----------  测试代码结束  -------------
+
+    /**
+     * 根据客户编号查询客户信息
+     * @param asyncResponse
+     * @param customId
+     */
+    @Path("{id : \\w+}")
     @GET
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({ MediaType.APPLICATION_JSON})
     public void getCustomerForQueue(@Suspended final AsyncResponse asyncResponse
-            , final @PathParam("id")String customId){
+            , final @PathParam("id")String customId,@HeaderParam("token") String token){
         logger.debug("getCustomer : "+customId);
         //获取时间戳，作为当前会话的key
         final String requestSequence = String.valueOf(System.currentTimeMillis());
@@ -83,9 +94,10 @@ public class CustomerResource extends AbstractCommonResource  {
         configResponse(asyncResponse,requestSequence);
         //将请求送到消息队列，等待异步处理。 RequestMessage 是个自定义ObjectMessage
         Map params = new HashMap<String,String>();
-        params.put(EOPConstants.M_CALL_QRY_CUST_CUSTINFO_BYNBR_PARAM1,customId);
-        messageSender.send(new RequestMessage(EOPConstants.M_CALL_QRY_CUST_CUSTINFO,null
-                ,requestSequence,EOPConstants.ASYNC_REQUEST_MESSAGE_PARAM_TYPE_STRING,customId));
+        params.put(EOPConstants.M_CALL_AUTHORIZE_TOKEN,token);
+        params.put(EOPConstants.M_CALL_QRY_CUST_CUSTINFO_PARAM1,customId);
+        messageSender.send(new RequestMessage(EOPConstants.M_CALL_QRY_CUST_CUSTINFO,params
+                ,requestSequence,EOPConstants.ASYNC_REQUEST_MESSAGE_PARAM_TYPE_MAP,null));
         final long timestamp = System.currentTimeMillis();
         logger.debug("messageSender.send duration : "+String.valueOf(timestamp - Long.parseLong(requestSequence))
                 +",key="+requestSequence);
@@ -98,12 +110,12 @@ public class CustomerResource extends AbstractCommonResource  {
      * @param asyncResponse 异步实现用的中间变量
      * @param customId 请求中传入的客户号码，字母和数字组合
      */
-    @GET
+    /*@GET
     @Path("/pool/{customId : \\w+}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({ MediaType.APPLICATION_JSON})
     public void getCustomer(@Suspended final AsyncResponse asyncResponse
-            ,@PathParam("customId") final String customId) {
+            ,@PathParam("customId") final String customId,@HeaderParam("token") String token ) {
         logger.debug("asyncResponse is null ? : "+(asyncResponse == null));
         asyncResponse.setTimeoutHandler(new TimeoutHandler() {
 
@@ -114,20 +126,23 @@ public class CustomerResource extends AbstractCommonResource  {
             }
         });
         asyncResponse.setTimeout(500, TimeUnit.MILLISECONDS);
+        final Map map = new HashMap();
+        map.put(EOPConstants.M_CALL_QRY_CUST_CUSTINFO_PARAM1,customId);
+        map.put(EOPConstants.M_CALL_AUTHORIZE_TOKEN,token);
         taskExecutor.execute(new Thread(new Runnable() {
 
             @Override
             public void run() {
                 logger.debug("start ProductHandler(customService).callService()"+customId);
                 new ProductHandler(new Object[]{customService,productService},asyncResponse)
-                        .resumeService(EOPConstants.M_CALL_QRY_CUST_CUSTINFO,customId);
+                        .resumeService(EOPConstants.M_CALL_QRY_CUST_CUSTINFO,map);
                 //asyncResponse.resume(result);
             }
 
         }));
         debugThreadPool(taskExecutor);
     }
-
+    */
 
     /**
      * 根据产品号码查询产品实例信息和同客户下所有产品
@@ -139,24 +154,22 @@ public class CustomerResource extends AbstractCommonResource  {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({ MediaType.APPLICATION_JSON})
     public void getCustomerByAccNbr(@Suspended final AsyncResponse asyncResponse
-            ,@PathParam("accNbr") final String accNbr){
+            ,@PathParam("accNbr") final String accNbr,@HeaderParam("token") String token){
         logger.debug("getCustomerByAccNbr : "+accNbr);
 
         final String transactionSequence = String.valueOf(System.currentTimeMillis());
         configResponse(asyncResponse,transactionSequence);
         //override timeout setting
         asyncResponse.setTimeout(50, TimeUnit.SECONDS);
-        taskExecutor.execute(new Thread(new Runnable() {
+        final Map map = new HashMap();
+        map.put(EOPConstants.M_CALL_QRY_CUST_CUSTINFO_BYNBR_PARAM1,accNbr);
+        map.put(EOPConstants.M_CALL_AUTHORIZE_TOKEN,token);
 
-            @Override
-            public void run() {
-                logger.debug("start ProductHandler(customService).callService().getCustomerByAccNbr"+accNbr);
-                new ProductHandler(new Object[]{customService,productService},asyncResponse)
-                        .resumeService(EOPConstants.M_CALL_QRY_CUST_CUSTINFO_BYNBR,accNbr);
-                //asyncResponse.resume(result);
-            }
-
-        }));
+        messageSender.send(new RequestMessage(EOPConstants.M_CALL_QRY_CUST_CUSTINFO_BYNBR,map
+                ,transactionSequence,EOPConstants.ASYNC_REQUEST_MESSAGE_PARAM_TYPE_MAP,null));
+        final long timestamp = System.currentTimeMillis();
+        logger.debug("messageSender.send duration : "+String.valueOf(timestamp - Long.parseLong(transactionSequence))
+                +",key="+transactionSequence);
         debugThreadPool(taskExecutor);
         /**
          * 以下代码是异步方式，已改异步方式。

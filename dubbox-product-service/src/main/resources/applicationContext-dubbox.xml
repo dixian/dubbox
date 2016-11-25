@@ -23,7 +23,7 @@
     <dubbo:application name="dubbox-product" owner="programmer" organization="dubbox"/>
 
     <dubbo:provider delay="-1" timeout="3000"  />
-    <dubbo:registry address="${dubbo.zookeeper.addr}"/>
+    <dubbo:registry protocol="zookeeper"  address="${dubbo.zookeeper.addr}"/>
 
     <!--uncomment this if you want to test dubbo's monitor-->
     <!--<dubbo:monitor protocol="registry"/>-->

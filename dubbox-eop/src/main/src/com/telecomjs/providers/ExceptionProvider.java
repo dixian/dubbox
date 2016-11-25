@@ -18,9 +18,10 @@ public class ExceptionProvider implements ExceptionMapper {
 
     @Override
     public Response toResponse(Throwable throwable) {
+        //throwable.getMessage()
         logger.debug(throwable.getMessage());
         return Response.status(404).
-                entity(new EOPResponseRoot().err(new EOPResponseHeader().err())).
+                entity(new EOPResponseRoot().err(throwable.getMessage())).
                 type(MediaType.APPLICATION_JSON_TYPE).
                 build();
     }
