@@ -72,6 +72,7 @@
     <param-value>com.telecomjs.providers</param-value>
   </context-param>
 
+
   <listener>
     <listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
   </listener>
@@ -79,7 +80,10 @@
     <listener-class>org.jboss.resteasy.plugins.spring.SpringContextLoaderListener</listener-class>
   </listener>
 
-
+  <context-param>
+    <param-name>resteasy.providers</param-name>
+    <param-value>com.telecomjs.providers.ExceptionProvider</param-value>
+  </context-param>
 
 
 
@@ -91,6 +95,10 @@
       <param-name>resteasy.servlet.mapping.prefix</param-name>
       <param-value>/rest</param-value>
     </init-param>
+    <!--<init-param>-->
+      <!--<param-name>resteasy.providers</param-name>-->
+      <!--<param-value>com.telecomjs.providers.ExceptionProvider</param-value>-->
+    <!--</init-param>-->
     <!--<init-param>-->
       <!--<param-name>resteasy.resources</param-name>-->
       <!--<param-value>com.telecomjs.resources</param-value>-->

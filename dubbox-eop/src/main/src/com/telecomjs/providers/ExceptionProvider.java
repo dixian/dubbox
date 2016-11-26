@@ -13,15 +13,16 @@ import javax.ws.rs.ext.Provider;
  * Created by zark on 16/11/17.
  */
 @Provider
-public class ExceptionProvider implements ExceptionMapper {
+public class ExceptionProvider implements ExceptionMapper<Exception> {
     Logger logger = Logger.getLogger(ExceptionProvider.class);
 
+
     @Override
-    public Response toResponse(Throwable throwable) {
-        //throwable.getMessage()
-        logger.debug(throwable.getMessage());
+    public Response toResponse(Exception e) {
+        e.printStackTrace();
+        logger.debug("ExceptionProvider triggered ");
         return Response.status(404).
-                entity(new EOPResponseRoot().err(throwable.getMessage())).
+                entity(new EOPResponseRoot().err(e.getMessage())).
                 type(MediaType.APPLICATION_JSON_TYPE).
                 build();
     }

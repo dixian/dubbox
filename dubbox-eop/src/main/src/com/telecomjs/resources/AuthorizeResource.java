@@ -5,12 +5,14 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.telecomjs.constants.EOPConstants;
+import com.telecomjs.exceptions.*;
 import com.telecomjs.handlers.MessageSender;
 import com.telecomjs.handlers.ProductHandler;
 import com.telecomjs.messages.RequestMessage;
 import com.telecomjs.service.intf.AuthService;
 import com.telecomjs.service.intf.CustomService;
 import com.telecomjs.service.intf.ProductService;
+import com.telecomjs.vo.EOPResponseHeader;
 import com.telecomjs.vo.EOPResponseRoot;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
@@ -84,10 +86,39 @@ public class AuthorizeResource extends AbstractCommonResource {
                 long start = System.currentTimeMillis();
                 logger.debug("start ProductHandler(customService).callService() "+ EOPConstants.M_CALL_AUTHORIZE_APP+args.toString());
                 //目前统一按map参数处理
-                new ProductHandler(new Object[]{customService,productService,authService},asyncResponse).authorize(args);
+                new ProductHandler(new Object[]{customService,productService,authService},asyncResponse)
+                        .resumeService(EOPConstants.M_CALL_AUTHORIZE_APP, args);
                 long end = System.currentTimeMillis();
                 logger.debug(this.getClass().getName()+".taskExecutor thread durations :" + String.valueOf(end-start));
             }
         }));
+    }
+
+    @GET
+    @Path("test/{va}")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response testWebService(@PathParam("va") long value) throws Exception {
+        if((100 / value) > 10) {
+            return Response.ok().entity(EOPResponseRoot.ok(EOPResponseHeader.ok(),"OK")).build();
+        }
+        else if((100 / value) > 8) {
+            throw  new EopParameterIsInvalidException();
+        }
+        else if((100 / value) > 7) {
+            throw  new EopServiceConnectionException();
+        }
+        else if((100 / value) > 6) {
+            throw  new EopServiceIsErrorException();
+        }
+        else if((100 / value) > 5) {
+            throw  new EopServiceCallOverflowException();
+        }else if((100 / value) > 4) {
+            throw  new EopTokenIsInvalidException();
+        }
+        else if((100 / value) > 3) {
+            throw  new EopTokenIsExpiredException();
+        }
+        return Response.ok().entity(EOPResponseRoot.ok(EOPResponseHeader.ok(),"OK")).build();
     }
 }
