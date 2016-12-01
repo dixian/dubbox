@@ -2,7 +2,6 @@ package com.telecomjs.mapper;
 
 import com.telecomjs.entities.EopAppOnline;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 
 @SuppressWarnings("UnnecessaryInterfaceModifier")
@@ -29,4 +28,7 @@ public interface EopAppOnlineMapper {
 
     @CacheEvict(value = "auth",key = "'getAppOnLineByToken#' + #a0.token")
     public int updateAppOnLineByToken(EopAppOnline bean);
+
+    public int archiveOnlineToken(String token);
+    public int deleteOnlineToken(String token);
 }

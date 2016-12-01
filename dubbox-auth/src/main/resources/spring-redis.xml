@@ -23,6 +23,7 @@
                 <bean class="com.telecomjs.caches.AuthRedisCache">
                     <property name="redisTemplate" ref="redisTemplate" />
                     <property name="name" value="auth"/>
+                    <property name="liveTime" value="${redis.livetime}" />
                 </bean>
             </set>
         </property>
@@ -63,6 +64,7 @@
         <property name="port" value="${redis.port}" />
         <property name="password" value="${redis.pass}" />
         <property name="poolConfig" ref="poolConfig" />
+        <property name="timeout" value="${redis.timeout}" />
     </bean>
 
     <bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">

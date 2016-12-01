@@ -7,7 +7,6 @@
       <module fileurl="file://$PROJECT_DIR$/dubbox-custom-service/dubbox-custom-service.iml" filepath="$PROJECT_DIR$/dubbox-custom-service/dubbox-custom-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/dubbox-eop/dubbox-eop.iml" filepath="$PROJECT_DIR$/dubbox-eop/dubbox-eop.iml" />
       <module fileurl="file://$PROJECT_DIR$/dubbox-product-service/dubbox-product-service.iml" filepath="$PROJECT_DIR$/dubbox-product-service/dubbox-product-service.iml" />
-      <module fileurl="file://$PROJECT_DIR$/dubbox-web/dubbox-web.iml" filepath="$PROJECT_DIR$/dubbox-web/dubbox-web.iml" />
     </modules>
   </component>
 </project>

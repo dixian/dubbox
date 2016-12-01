@@ -2,7 +2,6 @@ package com.telecomjs.service.impl;
 
 import com.telecomjs.beans.CustomerBean;
 import com.telecomjs.entities.Customer;
-import com.telecomjs.entities.Party;
 import com.telecomjs.mapper.CustomerMapper;
 import com.telecomjs.mapper.PartyMapper;
 import com.telecomjs.vo.CustomerInfo;
@@ -11,8 +10,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * Created by zark on 16/11/7.

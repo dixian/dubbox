@@ -28,6 +28,6 @@ public interface EopUserMapper {
      * @param password
      * @return
      */
-    @Cacheable(value = "auth",key = "'getUserByNameAndPassword#'+#username")
+    @Cacheable(value = "auth",key = "'EopUser#'+#root.methodName+'#'+#p0+','+#p1")
     public EopUser getUserByNameAndPassword(@Param("username") String username,@Param("password") String password);
 }

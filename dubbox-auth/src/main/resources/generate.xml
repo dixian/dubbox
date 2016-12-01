@@ -5,7 +5,9 @@
 <generatorConfiguration>
 
     <!-- !!!! Driver Class Path !!!! -->
-    <classPathEntry location="/Users/zark/Downloads/ojdbc6.jar"/>
+    <!--<classPathEntry location="/Users/zark/Downloads/ojdbc6.jar"/>-->
+    <classPathEntry
+            location="/Users/zark/.m2/repository/mysql/mysql-connector-java/5.1.40/mysql-connector-java-5.1.40.jar" />
 
     <context id="context" targetRuntime="MyBatis3">
         <commentGenerator>
@@ -14,8 +16,9 @@
         </commentGenerator>
 
         <!-- !!!! Database Configurations !!!! -->
-        <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver" connectionURL="jdbc:oracle:thin:@132.228.187.197:1621:itywds" userId="crm" password="crm#1234"/>
+        <!--<jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver" connectionURL="jdbc:oracle:thin:@132.228.187.197:1621:itywds" userId="crm" password="crm#1234"/>-->
 
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://132.224.230.19:3306/eop?characterEncoding=utf-8" userId="eop" password="eop_user"/>
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
@@ -37,7 +40,7 @@
         </javaClientGenerator>
 
         <!-- !!!! Table Configurations !!!! -->
-        <table tableName="eop_app_access" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               enableUpdateByExample="false"/>
+        <table tableName="eop_resource_access_limit" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="true"/>
     </context>
 </generatorConfiguration>

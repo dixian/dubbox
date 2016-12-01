@@ -95,6 +95,13 @@
       </if>
     </trim>
   </insert>
+  <insert id="archiveOnlineToken" parameterType="String">
+    insert into EOP_APP_ONLINE_LOG
+      SELECT ONLINE_ID, APP_ID, APIKEY,
+      APP_SECRET, TOKEN, STATUS,
+      TOKEN_STAMP, CLIENT_IP, CREATE_DATE
+      WHERE token = #{token}
+  </insert>
   <update id="updateAppOnLineByToken" parameterType="com.telecomjs.entities.EopAppOnline" >
     UPDATE EOP_APP_ONLINE
     <set>
@@ -104,6 +111,10 @@
     </set>
     WHERE ONLINE_ID = #{onlineId,jdbcType=DECIMAL}
   </update>
+  <delete id="deleteOnlineToken" parameterType="String">
+    DELETE FROM EOP_APP_ONLINE
+    WHERE token = #{token}
+  </delete>
   <sql id="Base_Column_List" >
     ONLINE_ID, APP_ID, APIKEY,
       APP_SECRET, TOKEN, STATUS,

@@ -21,10 +21,10 @@ public interface EopAppMapper {
      */
     int insertSelective(EopApp record);
 
-    @Cacheable(value = "auth",key = "'getAppByKeyAndSecret#'.concat( #p0.concat( #p1) )",condition = "#p0 != null")
+    @Cacheable(value = "auth",key = "'EopApp#'+#root.methodName+'#'+#p0+','+#p1" )
     //@Cacheable(value = "auth")
     public EopApp getAppByKeyAndSecret(@Param("apikey") String apikey,@Param("secret")  String secret);
 
-    @Cacheable(value = "auth")
+    @Cacheable(value = "auth",key = "'EopApp#'+#root.methodName+'#'+T(java.lang.String).valueOf(p0)" )
     public EopApp getAppByAppId(   long appId);
 }

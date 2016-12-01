@@ -2,7 +2,6 @@ package com.telecomjs.mapper;
 
 import com.telecomjs.entities.ProdInst;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.EnableCaching;
 
 import java.util.List;
 

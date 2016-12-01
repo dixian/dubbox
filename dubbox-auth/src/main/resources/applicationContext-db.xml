@@ -14,10 +14,10 @@
 
     <context:property-placeholder location="classpath*:*.properties" />
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
-        <property name="jdbcUrl" value="${jdbc.url}" />
-        <property name="driverClass" value="${jdbc.driver}" />
-        <property name="user" value="${jdbc.username}" />
-        <property name="password" value="${jdbc.password}" />
+        <property name="jdbcUrl" value="${jdbc.auth.url}" />
+        <property name="driverClass" value="${jdbc.auth.driver}" />
+        <property name="user" value="${jdbc.auth.username}" />
+        <property name="password" value="${jdbc.auth.password}" />
         <!--连接池中保留的最大连接数。Default: 15 -->
         <property name="maxPoolSize" value="100" />
         <!--连接池中保留的最小连接数。-->
@@ -62,15 +62,13 @@
         <!-- 数据库连接池 -->
         <property name="dataSource" ref="dataSource" />
         <!-- 加载mybatis的全局配置文件 -->
-        <!--
-        <property name="configLocation" value="classpath*:sqlMapConfig.xml" />
-        -->
+        <!--<property name="configLocation" value="classpath*:com/telecomjs/mapper/*Mapper.xml" />-->
     </bean>
 
     <!-- mapper扫描器 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <!-- 扫描包路径，如果需要扫描多个包，中间使用半角逗号隔开 -->
-        <property name="basePackage" value="com.telecomjs.mapper"/>
+        <property name="basePackage" value="com.telecomjs.mapper,com.telecomjs.entities"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
     </bean>
 
@@ -89,6 +87,8 @@
         <tx:attributes>
             <!-- 传播行为 -->
             <tx:method name="save*" propagation="REQUIRED"/>
+            <tx:method name="auth*" propagation="REQUIRED"/>
+            <tx:method name="verify*" propagation="REQUIRED"/>
             <tx:method name="delete*" propagation="REQUIRED"/>
             <tx:method name="insert*" propagation="REQUIRED"/>
             <tx:method name="update*" propagation="REQUIRED"/>

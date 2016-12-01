@@ -1,12 +1,7 @@
 package com.telecomjs.service.impl;
 
-import com.mchange.v2.beans.BeansUtils;
-import com.telecomjs.beans.OfferInstBean;
 import com.telecomjs.beans.ProdInstBean;
-import com.telecomjs.entities.OfferInst;
 import com.telecomjs.entities.ProdInst;
-import com.telecomjs.mapper.OfferInstMapper;
-import com.telecomjs.mapper.OfferMapper;
 import com.telecomjs.mapper.ProdInstMapper;
 import com.telecomjs.service.intf.OfferService;
 import com.telecomjs.service.intf.ProductService;
@@ -14,10 +9,8 @@ import com.telecomjs.vo.ProductInfo;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 

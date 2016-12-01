@@ -8,6 +8,7 @@
     <param-name>contextConfigLocation</param-name>
     <param-value>classpath*:applicationContext*.xml</param-value>
   </context-param>
+
   <context-param>
     <param-name>log4jRefreshInterval</param-name>
     <param-value>600</param-value>
@@ -16,12 +17,14 @@
   <listener>
     <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
   </listener>
+
   <listener>
     <listener-class>com.alibaba.dubbo.remoting.http.servlet.BootstrapListener</listener-class>
   </listener>
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
+
   <servlet>
     <servlet-name>remote</servlet-name>
     <servlet-class>com.alibaba.dubbo.remoting.http.servlet.DispatcherServlet</servlet-class>
@@ -32,4 +35,5 @@
     <servlet-name>remote</servlet-name>
     <url-pattern>/services/*</url-pattern>
   </servlet-mapping>
+
 </web-app>

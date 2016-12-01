@@ -26,7 +26,6 @@
         <module name="dubbox-custom-api" />
         <module name="dubbox-eop" />
         <module name="dubbox-product-service" />
-        <module name="dubbox-web" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

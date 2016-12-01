@@ -1,12 +1,10 @@
 package com.telecomjs.handlers;
 
-import com.alibaba.dubbo.common.store.support.SimpleDataStore;
+import com.alibaba.dubbo.remoting.TimeoutException;
 import com.alibaba.dubbo.rpc.RpcException;
 import com.alibaba.fastjson.JSON;
-import com.telecomjs.beans.EopAppAccessBean;
 import com.telecomjs.beans.EopAppOnlineBean;
 import com.telecomjs.beans.EopResourceAccessLimitBean;
-import com.telecomjs.beans.ProdInstBean;
 import com.telecomjs.constants.EOPConstants;
 import com.telecomjs.exceptions.*;
 import com.telecomjs.service.intf.AuthService;
@@ -14,17 +12,12 @@ import com.telecomjs.service.intf.CustomService;
 import com.telecomjs.service.intf.ProductService;
 import com.telecomjs.vo.*;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.support.ManagedProperties;
-import org.springframework.stereotype.Component;
 
-import javax.ws.rs.PathParam;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.core.GenericEntity;
+import javax.ws.rs.core.Response;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -89,11 +82,11 @@ public class ProductHandler {
             this.asyncResponse.resume(callService(methodName, args));
         } catch (Exception e) {
             if (e instanceof EopAppException){
-                asyncResponse.resume(EOPResponseRoot.err(((EopAppException) e).getText()));
+                asyncResponse.resume( Response.status(500).entity( EOPResponseRoot.err(((EopAppException) e).getText())).build());
             }
             else {
                 e.printStackTrace();
-                asyncResponse.resume(new GenericEntity<EOPResponseRoot>(EOPResponseRoot.err(EopExceptionText.HANDLER_ERROR_MESSAGE)){});
+                asyncResponse.resume(Response.status(500).entity(EOPResponseRoot.err(EopExceptionText.HANDLER_ERROR_MESSAGE)).build());
             }
         }
     }
@@ -121,7 +114,7 @@ public class ProductHandler {
                 throw  new EopTokenIsExpiredException();
             }
             //验证流量是否超过次数
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMDD");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
             String curr  = sdf.format(new Date());
             EopResourceAccessLimitBean limitBean = authService.verifyAccessLimit(token,null,methodName,curr);
             logger.debug("callService verifylimit  : "+ JSON.toJSONString(limitBean));
@@ -134,24 +127,27 @@ public class ProductHandler {
 
 
         try {
-            GenericEntity  result = null;
+            GenericEntity result = null;
             if (methodName.equals(EOPConstants.M_CALL_QRY_CUST_CUSTINFO)) {
 
-                EOPResponseRoot res = getCustomer(map.get(EOPConstants.M_CALL_QRY_CUST_CUSTINFO_PARAM1) );
-                result = new GenericEntity<EOPResponseRoot>(res){};
-            }
-            else if (methodName.equals(EOPConstants.M_CALL_QRY_CUST_CUSTINFO_BYNBR)){
-                result =  new GenericEntity<EOPResponseRoot>(getCustomerByAccNbr(map.get(EOPConstants.M_CALL_QRY_CUST_CUSTINFO_BYNBR_PARAM1))){};
-            }
-            else if (methodName.equals(EOPConstants.M_CALL_QRY_CUST_PRODUCT_BYNBR)){
-                result =  new GenericEntity<EOPResponseRoot>(getProductByNbr(map.get(EOPConstants.M_CALL_QRY_CUST_PRODUCT_BYNBR_PARAM1))){};
-            }
-            else if (methodName.equals(EOPConstants.M_CALL_AUTHORIZE_APP)){
-                result =  new GenericEntity<EOPResponseRoot>(authUserAndApp(map)){};
+                EOPResponseRoot res = getCustomer(map.get(EOPConstants.M_CALL_QRY_CUST_CUSTINFO_PARAM1));
+                result = new GenericEntity<EOPResponseRoot>(res) {
+                };
+            } else if (methodName.equals(EOPConstants.M_CALL_QRY_CUST_CUSTINFO_BYNBR)) {
+                result = new GenericEntity<EOPResponseRoot>(getCustomerByAccNbr(map.get(EOPConstants.M_CALL_QRY_CUST_CUSTINFO_BYNBR_PARAM1))) {
+                };
+            } else if (methodName.equals(EOPConstants.M_CALL_QRY_CUST_PRODUCT_BYNBR)) {
+                result = new GenericEntity<EOPResponseRoot>(getProductByNbr(map.get(EOPConstants.M_CALL_QRY_CUST_PRODUCT_BYNBR_PARAM1))) {
+                };
+            } else if (methodName.equals(EOPConstants.M_CALL_AUTHORIZE_APP)) {
+                result = new GenericEntity<EOPResponseRoot>(authUserAndApp(map)) {
+                };
             }
             long end = System.currentTimeMillis();
-            logger.debug(this.getClass().getName()+".callService durations :" + String.valueOf(end-start));
+            logger.debug(this.getClass().getName() + ".callService durations :" + String.valueOf(end - start));
             return result;
+        } catch (TimeoutException e){
+            throw new EopServiceTimeoutException(e);
         } catch (RpcException e){
             throw  new EopServiceIsErrorException(e);
         } catch (Exception e){
@@ -194,7 +190,7 @@ public class ProductHandler {
 
     }
 
-    private EOPResponseRoot authUserAndApp(Map args) {
+    private EOPResponseRoot authUserAndApp(Map args) throws TimeoutException {
         if (authService == null) //认证服务如果不可用，抛出认证失败的异常。
             throw new EopServiceConnectionException();
         final String username = (String) args.get("username");

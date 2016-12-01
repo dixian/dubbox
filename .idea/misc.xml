@@ -14,7 +14,6 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/dubbox-custom-api/pom.xml" />
-        <option value="$PROJECT_DIR$/dubbox-web/pom.xml" />
         <option value="$PROJECT_DIR$/dubbox-custom-service/pom.xml" />
         <option value="$PROJECT_DIR$/dubbox-product-service/pom.xml" />
         <option value="$PROJECT_DIR$/dubbox-eop/pom.xml" />

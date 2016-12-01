@@ -10,11 +10,14 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 import java.io.*;
 import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
+@SuppressWarnings("Duplicates")
 public class AuthRedisCache implements Cache{
 
     private RedisTemplate<String, Object> redisTemplate;
     private String                        name;
+    private long    liveTime = 3600;
 
     public RedisTemplate<String, Object> getRedisTemplate() {
         return redisTemplate;
@@ -28,6 +31,10 @@ public class AuthRedisCache implements Cache{
         this.name = name;
     }
 
+    public void setLiveTime(long liveTime) {
+        this.liveTime = liveTime;
+    }
+
     @Override
     public String getName() {
         return this.name;
@@ -38,6 +45,26 @@ public class AuthRedisCache implements Cache{
         return this.redisTemplate;
     }
 
+    public long getIncrementValue(String key){
+        Object object = redisTemplate.opsForValue().get(key);
+        return Long.valueOf((String) object);
+    }
+
+    public void incrementValue(final String key, long value ){
+        redisTemplate.opsForValue().increment(key,1L);
+        Object object = redisTemplate.opsForValue().get(key);
+        String times = (object == null ? "0" : (String)object);
+        final long currLiveTime = 86400;
+        if (times.equals("1")){
+            redisTemplate.execute(new RedisCallback<Long>() {
+                public Long doInRedis(RedisConnection connection) throws DataAccessException {
+                    byte[] keyb = key.getBytes();
+                    connection.expire(keyb, currLiveTime );
+                    return 1L;
+                }
+            });
+        }
+    }
     @Override
     public ValueWrapper get(Object key) {
         String simpleKey = null;
@@ -45,6 +72,7 @@ public class AuthRedisCache implements Cache{
             simpleKey = ((SimpleKey) key).toString();
         final String keyf = simpleKey==null ? (String) key : simpleKey;
         Object object = null;
+
         object = redisTemplate.execute(new RedisCallback<Object>() {
             public Object doInRedis(RedisConnection connection) throws DataAccessException {
 
@@ -64,15 +92,15 @@ public class AuthRedisCache implements Cache{
     public void put(Object key, Object value) {
         final String keyf = (String) key;
         final Object valuef = value;
-        final long liveTime = 86400;
+        final long currLiveTime = this.liveTime;
 
         redisTemplate.execute(new RedisCallback<Long>() {
             public Long doInRedis(RedisConnection connection) throws DataAccessException {
                 byte[] keyb = keyf.getBytes();
                 byte[] valueb = toByteArray(valuef);
                 connection.set(keyb, valueb);
-                if (liveTime > 0) {
-                    connection.expire(keyb, liveTime);
+                if (currLiveTime > 0) {
+                    connection.expire(keyb, currLiveTime);
                 }
                 return 1L;
             }

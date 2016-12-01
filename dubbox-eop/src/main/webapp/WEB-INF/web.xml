@@ -73,11 +73,21 @@
   </context-param>
 
 
+  <context-param>
+    <param-name>log4jRefreshInterval</param-name>
+    <param-value>600</param-value>
+  </context-param>
+
+
   <listener>
     <listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
   </listener>
   <listener>
     <listener-class>org.jboss.resteasy.plugins.spring.SpringContextLoaderListener</listener-class>
+  </listener>
+
+  <listener>
+    <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
   </listener>
 
   <context-param>

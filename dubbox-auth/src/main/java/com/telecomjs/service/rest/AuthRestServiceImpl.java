@@ -2,7 +2,6 @@ package com.telecomjs.service.rest;
 
 import com.alibaba.dubbo.rpc.protocol.rest.support.ContentType;
 import com.telecomjs.beans.EopAppOnlineBean;
-import com.telecomjs.beans.EopResourceAccessLimitBean;
 import com.telecomjs.service.intf.AuthRestService;
 import com.telecomjs.service.intf.AuthService;
 import com.telecomjs.vo.EOPResponseHeader;
