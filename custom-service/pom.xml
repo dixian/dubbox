@@ -13,7 +13,7 @@
     </parent>
     <groupId>com.telecomjs</groupId>
     <artifactId>custom-service</artifactId>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
 
     <dependencies>

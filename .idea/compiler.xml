@@ -23,6 +23,7 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="auth-service" />
+        <module name="custom-service" />
         <module name="dubbox-auth" />
         <module name="dubbox-custom-api" />
         <module name="dubbox-product-service" />

@@ -33,6 +33,14 @@ public class AsyncRequestMapHandler {
         }
         responseHashMap.remove(key,response);
     }
+
+    public void removeResponse(String key) {
+        if (responseHashMap == null) {
+            return;
+        }
+        responseHashMap.remove(key);
+    }
+
     public void putResponse(String key,AsyncResponse value) {
         if (responseHashMap == null) {
             responseHashMap = new ConcurrentHashMap<>();

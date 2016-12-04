@@ -57,7 +57,7 @@ public class MessageHandler implements MessageListener {
                 final long beginSeq = Long.parseLong(req.getRequestSequence())/1000;
                 final AsyncResponse asyncResponse = asyncRequestMapHandler.getAndRemoveResponse(req.getRequestSequence());
                 if (asyncResponse == null){
-                    logger.info("Concurrent asyncresponse key 重复!");
+                    logger.info("Concurrent asyncresponse key not exists ! key = "+req.getRequestSequence());
                     return;
                 }
                 final Object args ;

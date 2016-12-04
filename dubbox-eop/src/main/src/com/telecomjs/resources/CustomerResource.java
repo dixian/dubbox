@@ -3,10 +3,7 @@ package com.telecomjs.resources;
 import com.alibaba.fastjson.JSON;
 import com.telecomjs.beans.ProdInstBean;
 import com.telecomjs.constants.EOPConstants;
-import com.telecomjs.handlers.AsyncRequestMapHandler;
-import com.telecomjs.handlers.MessageHandler;
-import com.telecomjs.handlers.MessageSender;
-import com.telecomjs.handlers.ProductHandler;
+import com.telecomjs.handlers.*;
 import com.telecomjs.messages.RequestMessage;
 import com.telecomjs.service.intf.CustomService;
 import com.telecomjs.service.intf.ProductService;
@@ -87,9 +84,10 @@ public class CustomerResource extends AbstractCommonResource  {
     @Produces({ MediaType.APPLICATION_JSON})
     public void getCustomerForQueue(@Suspended final AsyncResponse asyncResponse
             , final @PathParam("id")String customId,@HeaderParam("token") String token){
-        logger.debug("getCustomer : "+customId);
+        logger.info("getCustomerForQueue be invoked . "+String.format("accNbr(customId=%s,token=%s).",customId,token));
         //获取时间戳，作为当前会话的key
-        final String requestSequence = String.valueOf(System.currentTimeMillis());
+        //final String requestSequence = String.valueOf(System.currentTimeMillis());
+        final String requestSequence = KeysHandler.getInstance().generateSequence();
         //设置异步响应的超时设置,并缓存异步响应实例
         configResponse(asyncResponse,requestSequence);
         //将请求送到消息队列，等待异步处理。 RequestMessage 是个自定义ObjectMessage
@@ -99,7 +97,7 @@ public class CustomerResource extends AbstractCommonResource  {
         messageSender.send(new RequestMessage(EOPConstants.M_CALL_QRY_CUST_CUSTINFO,params
                 ,requestSequence,EOPConstants.ASYNC_REQUEST_MESSAGE_PARAM_TYPE_MAP,null));
         final long timestamp = System.currentTimeMillis();
-        logger.debug("messageSender.send duration : "+String.valueOf(timestamp - Long.parseLong(requestSequence))
+        logger.debug("messageSender.send duration in getCustomerForQueue : "+String.valueOf(timestamp - Long.parseLong(requestSequence)/1000)
                 +",key="+requestSequence);
     }
 
@@ -155,9 +153,10 @@ public class CustomerResource extends AbstractCommonResource  {
     @Produces({ MediaType.APPLICATION_JSON})
     public void getCustomerByAccNbr(@Suspended final AsyncResponse asyncResponse
             ,@PathParam("accNbr") final String accNbr,@HeaderParam("token") String token){
-        logger.debug("getCustomerByAccNbr : "+accNbr);
+        logger.info("getCustomerByAccNbr be invoked . "+String.format("accNbr(accNbr=%s,token=%s).",accNbr,token));
 
-        final String transactionSequence = String.valueOf(System.currentTimeMillis());
+        //final String transactionSequence = String.valueOf(System.currentTimeMillis());
+        final String transactionSequence = KeysHandler.getInstance().generateSequence();
         configResponse(asyncResponse,transactionSequence);
         //override timeout setting
         asyncResponse.setTimeout(50, TimeUnit.SECONDS);
@@ -168,7 +167,7 @@ public class CustomerResource extends AbstractCommonResource  {
         messageSender.send(new RequestMessage(EOPConstants.M_CALL_QRY_CUST_CUSTINFO_BYNBR,map
                 ,transactionSequence,EOPConstants.ASYNC_REQUEST_MESSAGE_PARAM_TYPE_MAP,null));
         final long timestamp = System.currentTimeMillis();
-        logger.debug("messageSender.send duration : "+String.valueOf(timestamp - Long.parseLong(transactionSequence))
+        logger.debug("messageSender.send duration in getCustomerByAccNbr : "+String.valueOf(timestamp - Long.parseLong(transactionSequence)/1000)
                 +",key="+transactionSequence);
         debugThreadPool(taskExecutor);
         /**

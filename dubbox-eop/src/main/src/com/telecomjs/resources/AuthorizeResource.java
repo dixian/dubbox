@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.telecomjs.constants.EOPConstants;
 import com.telecomjs.exceptions.*;
+import com.telecomjs.handlers.KeysHandler;
 import com.telecomjs.handlers.MessageSender;
 import com.telecomjs.handlers.ProductHandler;
 import com.telecomjs.messages.RequestMessage;
@@ -76,8 +77,9 @@ public class AuthorizeResource extends AbstractCommonResource {
             }
         }
 
-        final String requestSequence = String.valueOf(System.currentTimeMillis());
-        configResponse(asyncResponse,requestSequence,1);
+        //final String requestSequence = String.valueOf(System.currentTimeMillis());
+        final String requestSequence = KeysHandler.getInstance().generateSequence();
+        configResponse(asyncResponse,requestSequence,2);
 
 
         authTaskExecutor.execute(new Thread(new Runnable() {

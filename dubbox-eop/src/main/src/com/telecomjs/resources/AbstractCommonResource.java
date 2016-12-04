@@ -37,6 +37,7 @@ public class AbstractCommonResource {
     }
     protected void configResponse(final AsyncResponse asyncResponse, final String sequence ,int timeout) {
         //讲异步响应的实例压如Hash队列中
+        logger.info("Concurrent asyncresponse into concurrentmap ! key = "+sequence+",asyncresponse="+asyncResponse);
         asyncRequestMapHandler.putResponse(sequence,asyncResponse);
         //超时的回调，当超时时，主动唤醒AsyncResource实例并设置HTTP状态码
         asyncResponse.setTimeoutHandler(new TimeoutHandler() {

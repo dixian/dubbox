@@ -60,10 +60,10 @@ public class ProductResource extends AbstractCommonResource {
     @Produces({ MediaType.APPLICATION_JSON})
     public void getProduct(@Suspended final AsyncResponse asyncResponse, @PathParam("accNbr") final String accNbr
         ,@HeaderParam("token") String token){
-        logger.debug("getProduct : "+accNbr);
+        logger.info("getProduct be invoked . "+String.format("accNbr(accNbr=%s,token=%s).",accNbr,token));
         //获取时间戳，作为当前会话的key
         //final String requestSequence = String.valueOf(System.currentTimeMillis());
-        final String requestSequence = KeysHandler.generateSequence();
+        final String requestSequence = KeysHandler.getInstance().generateSequence();
         //设置异步响应的超时设置,并缓存异步响应实例
         configResponse(asyncResponse,requestSequence);
         //将请求送到消息队列，等待异步处理。 RequestMessage 是个自定义ObjectMessage
@@ -73,7 +73,7 @@ public class ProductResource extends AbstractCommonResource {
         messageSender.send(new RequestMessage(EOPConstants.M_CALL_QRY_CUST_PRODUCT_BYNBR,params
                 ,requestSequence,EOPConstants.ASYNC_REQUEST_MESSAGE_PARAM_TYPE_MAP,accNbr));
         final long timestamp = System.currentTimeMillis();
-        logger.debug("messageSender.send duration : "+String.valueOf(timestamp - Long.parseLong(requestSequence)/1000)
+        logger.debug("messageSender.send duration  in getProduct . "+String.valueOf(timestamp - Long.parseLong(requestSequence)/1000)
                 +",key="+requestSequence);
 
         //超时的情况下再次处理
