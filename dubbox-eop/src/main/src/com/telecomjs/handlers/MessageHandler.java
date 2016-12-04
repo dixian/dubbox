@@ -54,8 +54,12 @@ public class MessageHandler implements MessageListener {
             try {
                 ObjectMessage om = (ObjectMessage) message;
                 RequestMessage req = (RequestMessage) om.getObject();
-                final long beginSeq = Long.parseLong(req.getRequestSequence());
+                final long beginSeq = Long.parseLong(req.getRequestSequence())/1000;
                 final AsyncResponse asyncResponse = asyncRequestMapHandler.getAndRemoveResponse(req.getRequestSequence());
+                if (asyncResponse == null){
+                    logger.info("Concurrent asyncresponse key 重复!");
+                    return;
+                }
                 final Object args ;
                 if (req.getParamType() == EOPConstants.ASYNC_REQUEST_MESSAGE_PARAM_TYPE_STRING)
                     args = req.getParam(); //单值参数
@@ -78,8 +82,21 @@ public class MessageHandler implements MessageListener {
                         logger.debug(this.getClass().getName()+".taskExecutor resume durations :" + String.valueOf(end-beginSeq));
                     }
                 }));
+                /*new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        long start = System.currentTimeMillis();
+                        logger.debug("start ProductHandler(customService).callService() "+method+args.toString());
+                        //目前统一按map参数处理
+                        new ProductHandler(new Object[]{customService,productService,authService},asyncResponse)
+                                .resumeService(method, (Map) args);
+                        long end = System.currentTimeMillis();
+                        logger.debug(this.getClass().getName()+".taskExecutor thread durations :" + String.valueOf(end-start));
+                        logger.debug(this.getClass().getName()+".taskExecutor resume durations :" + String.valueOf(end-beginSeq));
+                    }
+                }).start();*/
                 final long timestamp = System.currentTimeMillis();
-                logger.debug("messageHandler.receiver duration : "+String.valueOf(timestamp - Long.parseLong(req.getRequestSequence()))
+                logger.debug("messageHandler.receiver duration : "+String.valueOf(timestamp - Long.parseLong(req.getRequestSequence())/1000)
                         +",key="+req.getRequestSequence());
             } catch (JMSException e) {
                 e.printStackTrace();

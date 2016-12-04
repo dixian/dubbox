@@ -1,5 +1,6 @@
 package com.telecomjs.handlers;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.container.AsyncResponse;
@@ -13,31 +14,34 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Component
 public class AsyncRequestMapHandler {
-    private ConcurrentHashMap<String,AsyncResponse> responseHashMap = new ConcurrentHashMap<>(200);
+    private ConcurrentHashMap<String,AsyncResponse> responseHashMap = new ConcurrentHashMap<>();
+    private final int warnNumber = 200;
+    Logger logger = Logger.getLogger(AsyncRequestMapHandler.class);
 
     public AsyncResponse getAndRemoveResponse(String key) {
         if (responseHashMap == null) {
-            responseHashMap = new ConcurrentHashMap<>(200);
+            responseHashMap = new ConcurrentHashMap<>();
         }
         AsyncResponse response= responseHashMap.get(key);
         responseHashMap.remove(key);
         return response;
     }
 
-    public void removeResponse(String key) {
+    public void removeResponse(String key,AsyncResponse response) {
         if (responseHashMap == null) {
             return;
         }
-        responseHashMap.remove(key);
+        responseHashMap.remove(key,response);
     }
     public void putResponse(String key,AsyncResponse value) {
         if (responseHashMap == null) {
-            responseHashMap = new ConcurrentHashMap<>(200);
+            responseHashMap = new ConcurrentHashMap<>();
         }
 
         responseHashMap.put(key,value);
-        // 缓存数量超过一半的时候，清理掉垃圾数据。
-        if (responseHashMap.size() > 100 ) {
+        // 缓存数量超过warnNumber的时候，清理掉垃圾数据。
+        if (responseHashMap.size() > warnNumber ) {
+            logger.info("Async response pool size : "+responseHashMap.size());
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -45,7 +49,7 @@ public class AsyncRequestMapHandler {
                     while (sets.hasMoreElements()) {
                         String oldKey = sets.nextElement();
                         Long diff = System.currentTimeMillis() - Long.parseLong(oldKey);
-                        if (diff > 5000) {
+                        if (diff > 3600*1000) { //超过1个小时的都是不正常记录
                             responseHashMap.remove(oldKey);
                         }
                     }

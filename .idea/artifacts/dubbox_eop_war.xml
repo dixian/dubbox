@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="war" name="dubbox-eop:war">
-    <output-path>$PROJECT_DIR$/dubbox-eop/target</output-path>
+    <output-path>$PROJECT_DIR$/out/target</output-path>
     <root id="archive" name="eop.war">
       <element id="artifact" artifact-name="dubbox-eop:war exploded" />
     </root>

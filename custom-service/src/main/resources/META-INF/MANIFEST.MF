@@ -1,0 +1,45 @@
+Manifest-Version: 1.0
+Class-Path: validation-api-1.0.0.GA.jar cxf-rt-databinding-jaxb-2.6.1.
+ jar resteasy-jdk-http-3.0.7.Final.jar resteasy-jaxrs-3.0.7.Final.jar 
+ xstream-1.4.1.jar jaxb-core-2.2.7.jar libthrift-0.8.0.jar jline-0.9.9
+ 4.jar grizzly-portunif-2.1.4.jar aspectjweaver-1.8.9.jar commons-pool
+ 2-2.4.2.jar mchange-commons-java-0.2.11.jar commons-logging-1.2.jar w
+ sdl4j-1.6.2.jar log4j-1.2.16.jar commons-pool-1.6.jar objenesis-2.1.j
+ ar cxf-rt-frontend-simple-2.6.1.jar cache-api-1.0.0.jar javax.servlet
+ -api-3.1.0.jar hessian-4.0.7.jar spring-aspects-4.3.3.RELEASE.jar hib
+ ernate-validator-4.2.0.Final.jar jcl-over-slf4j-1.7.21.jar spring-web
+ mvc-4.3.3.RELEASE.jar geronimo-javamail_1.4_spec-1.7.1.jar spring-dat
+ a-keyvalue-1.1.5.RELEASE.jar netty-all-4.1.6.Final.jar woodstox-core-
+ asl-4.1.2.jar xmemcached-1.3.6.jar jboss-annotations-api_1.1_spec-1.0
+ .1.Final.jar httpcore-4.2.1.jar spring-web-4.3.3.RELEASE.jar jaxrs-ap
+ i-3.0.7.Final.jar resteasy-netty-3.0.7.Final.jar cxf-rt-transports-ht
+ tp-2.6.1.jar httpclient-4.2.1.jar management-api-3.0.0-b012.jar reste
+ asy-client-3.0.7.Final.jar xpp3_min-1.1.4c.jar cxf-api-2.6.1.jar mysq
+ l-connector-java-5.1.40.jar jedis-2.9.0.jar mybatis-3.4.1.jar spring-
+ context-4.3.3.RELEASE.jar mina-core-1.1.7.jar jackson-core-asl-1.9.12
+ .jar grizzly-rcm-2.1.4.jar gmbal-api-only-3.0.0-b023.jar spring-expre
+ ssion-4.3.3.RELEASE.jar ehcache-core-2.6.11.jar stax2-api-3.1.1.jar c
+ ommons-codec-1.6.jar jackson-jaxrs-1.9.12.jar spring-beans-4.3.3.RELE
+ ASE.jar maven-plugin-api-2.0.jar jaxb-api-2.2.7.jar resteasy-jackson-
+ provider-3.0.7.Final.jar jetty-util-6.1.26.jar kryo-serializers-0.26.
+ jar jaxb-impl-2.2.7.jar spring-oxm-4.2.8.RELEASE.jar tomcat-embed-cor
+ e-8.0.11.jar curator-client-2.5.0.jar slf4j-log4j12-1.6.1.jar slf4j-a
+ pi-1.6.2.jar resteasy-jaxb-provider-3.0.7.Final.jar bsf-api-3.1.jar s
+ pring-data-commons-1.12.4.RELEASE.jar istack-commons-runtime-2.16.jar
+  jackson-mapper-asl-1.9.12.jar c3p0-0.9.5.2.jar spring-core-4.3.3.REL
+ EASE.jar activation-1.1.jar zookeeper-3.4.6.jar guava-16.0.1.jar fast
+ json-1.1.39.jar spring-jdbc-4.2.8.RELEASE.jar netty-3.7.0.Final.jar c
+ xf-rt-core-2.6.1.jar spring-data-jpa-1.10.4.RELEASE.jar jsr173_api-1.
+ 0.jar aopalliance-1.0.jar jackson-xc-1.9.12.jar dubbo-2.8.4.jar commo
+ ns-lang-2.5.jar aspectjrt-1.8.9.jar fst-1.55.jar jcip-annotations-1.0
+ .jar jetty-6.1.26.jar jstl-1.2.jar tomcat-embed-logging-juli-8.0.11.j
+ ar spring-data-redis-1.7.5.RELEASE.jar ojdbc6-12.1.0.1-atlassian-host
+ ed.jar mybatis-spring-1.3.0.jar javassist-3.15.0-GA.jar grizzly-core-
+ 2.1.4.jar commons-io-2.1.jar FastInfoset-1.2.12.jar minlog-1.2.jar cx
+ f-rt-bindings-soap-2.6.1.jar zkclient-0.1.jar spring-tx-4.2.8.RELEASE
+ .jar grizzly-framework-2.1.4.jar curator-framework-2.5.0.jar xmlschem
+ a-core-2.0.2.jar xmlpull-1.1.3.1.jar kryo-2.24.0.jar spring-aop-4.3.3
+ .RELEASE.jar spring-context-support-4.3.3.RELEASE.jar spring-orm-4.2.
+ 8.RELEASE.jar javax.annotation-api-1.2.jar
+Main-Class: com.alibaba.dubbo.container.Main
+

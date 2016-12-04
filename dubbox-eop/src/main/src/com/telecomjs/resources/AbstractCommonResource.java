@@ -28,6 +28,10 @@ public class AbstractCommonResource {
     @Autowired
     private AsyncRequestMapHandler asyncRequestMapHandler;
 
+    public AsyncRequestMapHandler getAsyncRequestMapHandler() {
+        return asyncRequestMapHandler;
+    }
+
     protected void configResponse(final AsyncResponse asyncResponse, final String sequence){
         configResponse(asyncResponse,sequence,10);
     }
@@ -43,7 +47,7 @@ public class AbstractCommonResource {
                         Response.Status.SERVICE_UNAVAILABLE)
                         .entity(new EOPResponseRoot().err("Operation time out.")).build());
                 //超时清楚AsyncResponse的缓存
-                asyncRequestMapHandler.removeResponse(sequence);
+                asyncRequestMapHandler.removeResponse(sequence,asyncResponse);
                 final long end = System.currentTimeMillis();
                 logger.debug("TIMEOUT duration :" +String.valueOf(end - Long.parseLong(sequence))+",key="+sequence);
             }

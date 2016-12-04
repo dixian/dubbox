@@ -2,6 +2,7 @@ package com.telecomjs.resources;
 
 import com.telecomjs.constants.EOPConstants;
 import com.telecomjs.handlers.AsyncRequestMapHandler;
+import com.telecomjs.handlers.KeysHandler;
 import com.telecomjs.handlers.MessageSender;
 import com.telecomjs.handlers.ProductHandler;
 import com.telecomjs.messages.RequestMessage;
@@ -61,7 +62,8 @@ public class ProductResource extends AbstractCommonResource {
         ,@HeaderParam("token") String token){
         logger.debug("getProduct : "+accNbr);
         //获取时间戳，作为当前会话的key
-        final String requestSequence = String.valueOf(System.currentTimeMillis());
+        //final String requestSequence = String.valueOf(System.currentTimeMillis());
+        final String requestSequence = KeysHandler.generateSequence();
         //设置异步响应的超时设置,并缓存异步响应实例
         configResponse(asyncResponse,requestSequence);
         //将请求送到消息队列，等待异步处理。 RequestMessage 是个自定义ObjectMessage
@@ -71,10 +73,24 @@ public class ProductResource extends AbstractCommonResource {
         messageSender.send(new RequestMessage(EOPConstants.M_CALL_QRY_CUST_PRODUCT_BYNBR,params
                 ,requestSequence,EOPConstants.ASYNC_REQUEST_MESSAGE_PARAM_TYPE_MAP,accNbr));
         final long timestamp = System.currentTimeMillis();
-        logger.debug("messageSender.send duration : "+String.valueOf(timestamp - Long.parseLong(requestSequence))
+        logger.debug("messageSender.send duration : "+String.valueOf(timestamp - Long.parseLong(requestSequence)/1000)
                 +",key="+requestSequence);
 
+        //超时的情况下再次处理
+        /*asyncResponse.setTimeoutHandler(new TimeoutHandler() {
+            @Override
+            public void handleTimeout(AsyncResponse asyncResponse) {
 
+                getAsyncRequestMapHandler().removeResponse(requestSequence);
+                asyncResponse.resume(Response.status(
+                        Response.Status.SERVICE_UNAVAILABLE)
+                        .entity(new EOPResponseRoot().err("Operation time out.")).build());
+                //超时清楚AsyncResponse的缓存
+
+                final long end = System.currentTimeMillis();
+                logger.debug("TIMEOUT duration :" +String.valueOf(end - Long.parseLong(requestSequence))+",key="+requestSequence);
+            }
+        });*/
     }
 
 

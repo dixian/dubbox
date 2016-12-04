@@ -17,6 +17,9 @@
         <option value="$PROJECT_DIR$/dubbox-custom-service/pom.xml" />
         <option value="$PROJECT_DIR$/dubbox-product-service/pom.xml" />
         <option value="$PROJECT_DIR$/dubbox-eop/pom.xml" />
+        <option value="$PROJECT_DIR$/auth-service/pom.xml" />
+        <option value="$PROJECT_DIR$/custom-service/pom.xml" />
+        <option value="$PROJECT_DIR$/product-service/pom.xml" />
       </list>
     </option>
   </component>

@@ -1,5 +1,6 @@
 package com.telecomjs.handlers;
 
+import com.alibaba.dubbo.remoting.RemotingException;
 import com.alibaba.dubbo.remoting.TimeoutException;
 import com.alibaba.dubbo.rpc.RpcException;
 import com.alibaba.fastjson.JSON;
@@ -29,6 +30,7 @@ public class ProductHandler {
     private ProductService productService;
     private CustomService customService;
     private AuthService authService;
+    private int dubboRepeatTimes;
 
 
     public ProductHandler(Object[] services, AsyncResponse asyncResponse) {
@@ -47,6 +49,7 @@ public class ProductHandler {
             }
         }
         this.asyncResponse = asyncResponse;
+        this.dubboRepeatTimes = 3;//默认3次
     }
 
     private  AsyncResponse asyncResponse;
@@ -79,7 +82,29 @@ public class ProductHandler {
             asyncResponse.resume(new GenericEntity<EOPResponseRoot>(EOPResponseRoot.err("无有效的服务参数!")){});
 
         try {
-            this.asyncResponse.resume(callService(methodName, args));
+            //获取调用次数参数，默认三次
+            int repeatTimes = dubboRepeatTimes;
+            if (args != null  ) {
+                Object stringTimes = args.get("repeatTimes$");
+                repeatTimes = stringTimes == null ? dubboRepeatTimes : Integer.valueOf((String) stringTimes) ;
+            }
+            //调用实际的业务逻辑处理 重复三次调用dubbo服务
+            for (int i = 0; i < repeatTimes; i++) {
+                logger.debug("start invoking remote service , "+i+"/"+repeatTimes+" times .");
+                try {
+                    this.asyncResponse.resume(callService(methodName, args));
+                    break;//只要成功执行就跳出循环
+                }
+                catch (com.alibaba.dubbo.remoting.RemotingException e){
+                    e.printStackTrace();
+                    logger.debug("callService parameters on error : "+i+"/"+repeatTimes+" times ."+ JSON.toJSONString(args));
+                    if (i >= repeatTimes){
+                        asyncResponse.resume(Response.status(500).entity(EOPResponseRoot.err(EopExceptionText.HANDLER_ERROR_MESSAGE)).build());
+                    }
+                }
+
+            }
+            //this.asyncResponse.resume(callService(methodName, args));
         } catch (Exception e) {
             if (e instanceof EopAppException){
                 asyncResponse.resume( Response.status(500).entity( EOPResponseRoot.err(((EopAppException) e).getText())).build());
@@ -90,7 +115,7 @@ public class ProductHandler {
             }
         }
     }
-    private GenericEntity callService(String methodName, Map args){
+    private GenericEntity callService(String methodName, Map args) throws RemotingException {
         long start = System.currentTimeMillis();
         /*if (!(args instanceof Map)) {
             return  new GenericEntity<EOPResponseRoot>(EOPResponseRoot.err("无有效的服务参数!")){};

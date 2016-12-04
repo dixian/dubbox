@@ -2,11 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/dubbox-auth/dubbox-auth.iml" filepath="$PROJECT_DIR$/dubbox-auth/dubbox-auth.iml" />
+      <module fileurl="file://$PROJECT_DIR$/auth-service/auth-service.iml" filepath="$PROJECT_DIR$/auth-service/auth-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/custom-service/custom-service.iml" filepath="$PROJECT_DIR$/custom-service/custom-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/dubbox-custom-api/dubbox-custom-api.iml" filepath="$PROJECT_DIR$/dubbox-custom-api/dubbox-custom-api.iml" />
-      <module fileurl="file://$PROJECT_DIR$/dubbox-custom-service/dubbox-custom-service.iml" filepath="$PROJECT_DIR$/dubbox-custom-service/dubbox-custom-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/dubbox-eop/dubbox-eop.iml" filepath="$PROJECT_DIR$/dubbox-eop/dubbox-eop.iml" />
-      <module fileurl="file://$PROJECT_DIR$/dubbox-product-service/dubbox-product-service.iml" filepath="$PROJECT_DIR$/dubbox-product-service/dubbox-product-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dubbox-parrent/dubbox-parrent.iml" filepath="$PROJECT_DIR$/dubbox-parrent/dubbox-parrent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/product-service/product-service.iml" filepath="$PROJECT_DIR$/product-service/product-service.iml" />
     </modules>
   </component>
 </project>
